@@ -1,0 +1,10 @@
+# Files: Excluding all
+*.*
+# Folders: Excluding all
+*/*
+
+# Files: Including important
+!.gitignore
+!README.md
+# Files: Including java Backend Classes
+!blogic/*
