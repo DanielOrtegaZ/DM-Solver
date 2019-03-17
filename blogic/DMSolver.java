@@ -4,14 +4,15 @@
  *   SUBJECT:     _
  *   PROFESSOR:   _
  *
- * DESARROLLADORES: Daniel Ortega
+ * DESARROLLADORES: Martin Barrera
+ *                  Daniel Ortega
  *
  * PRACTICE _:  TITULO DE LA PRACTICA
  *               - DESCRIPCION
  *		
 */
 
-public class Class{
+public class DMSolver{
     
     /* ATRIBUTES */
     

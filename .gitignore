@@ -2,6 +2,7 @@
 *.*
 # Folders: Excluding all
 */*
+gradlew
 
 # Files: Including important
 !.gitignore
