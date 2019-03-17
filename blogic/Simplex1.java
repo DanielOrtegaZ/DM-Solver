@@ -12,6 +12,8 @@
  *		
 */
 
+import java.util.ArrayList;
+
 public class Simplex1{
     
     /* ATRIBUTES */
@@ -19,6 +21,17 @@ public class Simplex1{
     /* CONSTRUCTORS */
     
     /* PUBLIC METHODS */
+    public void procesar(FuncionZ z,ArrayList<Condicion> condiciones){
+    
+        System.out.println("Funcion Z");
+        System.out.println(z+"\n");
+    
+        System.out.println("Condiciones");
+        int i;
+        for(i=0; i<condiciones.size(); i++){
+            System.out.println(condiciones.get(i));
+        }
+    }
 	
 	/* PRIVATE METHODS */
     

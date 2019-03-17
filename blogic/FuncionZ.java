@@ -15,10 +15,20 @@
 public class FuncionZ{
     
     /* ATRIBUTES */
+    public double coefx;
+    public double coefy;
     
     /* CONSTRUCTORS */
+    public FuncionZ(double coefx, double coefy){
+        this.coefx = coefx;
+        this.coefy = coefy;
+    }
     
     /* PUBLIC METHODS */
+	
+    public String toString(){
+        return coefx + "X + " + coefy + "y = z";
+	}
 	
 	/* PRIVATE METHODS */
 }

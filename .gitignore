@@ -9,3 +9,4 @@ gradlew
 !README.md
 # Files: Including java Backend Classes
 !blogic/*
+blogic/*.class
