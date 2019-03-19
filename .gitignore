@@ -2,9 +2,11 @@
 #*.*
 # Folders: Excluding all
 #*/*
-#.gradle/
-#.idea/
-#local.properties
+.gradle/
+.gradle/**/*
+.idea/
+.idea/**/*
+local.properties
 
 # Files: Including important
 #!.gitignore
