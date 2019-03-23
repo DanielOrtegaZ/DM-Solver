@@ -19,7 +19,7 @@
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
             <Switch
-                android:id="@+id/esMateria"
+                android:id="@+id/maxMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-80dp"
@@ -51,7 +51,7 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <ImageButton
-                android:id="@+id/imageButtona"
+                android:id="@+id/imageButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top|end"
@@ -86,14 +86,14 @@
             android:layout_marginBottom="100dp"
             tools:context=".InputActivity">
 
-            <include layout="@layout/fragment_restriction"/>
+            <!--include layout="@layout/fragment_restriction"/-->
 
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/addRestrictionBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

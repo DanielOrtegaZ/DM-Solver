@@ -6,7 +6,7 @@
     android:layout_height="70dp"
     android:layout_marginTop="10dp"
     android:background="@color/white"
-    tools:context=".Restriction">
+    tools:context=".Restrictionfr">
 
     <TextView
         android:id="@+id/label"

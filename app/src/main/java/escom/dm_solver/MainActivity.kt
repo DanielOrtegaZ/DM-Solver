@@ -14,7 +14,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         comenzar.setOnClickListener(this)
     }
 
@@ -24,7 +23,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener {
                 val intent = Intent(this,InputActivity::class.java)
                 startActivityForResult(intent,200)
             }
-
         }
     }
 
