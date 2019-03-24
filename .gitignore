@@ -1,7 +1,7 @@
 # Files: Excluding all
 *.*
 # Folders: Excluding all
-*/*
+#*/*
 #.gradle
 #.gradle/**/*
 #.idea
@@ -15,7 +15,3 @@ app/.gitignore
 # !app/
 !app/**/main/
 !app/**/main/**/*
-!app/**/main/**/dm_solver/
-!app/**/main/**/dm_solver/**/*
-!app/src/main/java/escom/dm_solver/
-!app/src/main/java/escom/dm_solver/**/*
