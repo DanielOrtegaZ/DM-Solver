@@ -18,12 +18,20 @@
             android:background="?attr/colorPrimaryDark"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
 
+            <ImageButton
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimaryDark"
+                android:tint="@color/white"
+                app:srcCompat="?attr/actionModeCloseDrawable" />
+
             <Switch
                 android:id="@+id/maxMin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="-80dp"
-                android:layout_gravity="top|start"
+                android:layout_gravity="top|end"
                 android:layout_margin="10dp"
                 android:textStyle="bold"
                 android:checked="true"
@@ -37,7 +45,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/functionZ"
                 android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_marginEnd="8dp"
@@ -60,7 +68,7 @@
                 android:clickable="true"
                 android:src="@android:drawable/ic_menu_edit"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@+id/functionZ"
                 app:layout_constraintTop_toTopOf="parent" />
 
         </android.support.constraint.ConstraintLayout>
