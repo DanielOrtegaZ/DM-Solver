@@ -1,9 +1,15 @@
 <resources>
+
+    <!-- ACTIVITIES & APP TITLES-->
     <string name="app_name">DM-Solver</string>
-    <string name="start">COMENZAR</string>
     <string name="title_activity_input"></string>
 
+    <!-- Main Activity Strings -->
+    <string name="start">RESTRICCIONES</string>
+
+    <!-- Input Activity Strings -->
+    <!-- TODO: Deben ser usadas en código -->
     <string name="restriccion_ejemplo">12<b>x</b> + 14<b>y</b> &lt; 13</string>
     <string name="funcion_ejemplo">z = 13x + 15y</string>
-    <string name="title_activity_main2">Main2Activity</string>
+
 </resources>
