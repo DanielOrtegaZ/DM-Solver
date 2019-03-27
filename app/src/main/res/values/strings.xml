@@ -6,6 +6,14 @@
 
     <!-- Main Activity Strings -->
     <string name="start">RESTRICCIONES</string>
+    <string name="calculate">CALCULAR</string>
+    <string-array name="methods">
+        <item>Simplex 1</item>
+        <item>Simplex 2</item>
+        <item>Simplex 3</item>
+        <item>Semilla A</item>
+        <item>Geneticos</item>
+    </string-array>
 
     <!-- Input Activity Strings -->
     <!-- TODO: Deben ser usadas en código -->
