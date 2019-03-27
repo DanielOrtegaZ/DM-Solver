@@ -11,7 +11,14 @@ class Restriction {
 
     companion object { // STATIC METHODS / VARIABLES
         fun createRestriction(s:String):Restriction?{
-            return null
+
+            val regex = """([0-9]*|([0-9]+/[0-9]+))[a-y]((\+|-)([0-9]*|([0-9]+/[0-9]+))[a-y])*(<=|>=)[0-9]+""".toRegex()
+            s = s.trim()
+
+            if( regex.matches(s) )
+                return Restriction()
+            else
+                return null
         }
 
         val MAYOR_IGUAL = 0

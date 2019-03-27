@@ -1,11 +1,13 @@
 package escom.dm_solver
 
+import android.app.Activity
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import escom.dm_solver.classes.Restriction
 import kotlinx.android.synthetic.main.activity_input.*
 
 class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogListener, View.OnClickListener {
@@ -24,6 +26,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         addRestrictionBtn.setOnClickListener(this)
         imageButton.setOnClickListener(this)
         maxMin.setOnClickListener(this)
+        backBtn.setOnClickListener(this)
 
         addNewRestriccion("12x + 13y <= 14")
     }
@@ -37,8 +40,6 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         var inputFragment = dialog as NoticeDialogFragment
         var input = inputFragment.input
 
-        Toast.makeText(this,"INPUT: ${input}",Toast.LENGTH_LONG).show()
-
         when(accion){
             NEW_RULE -> addNewRestriccion(input)
             EDIT_Z -> declareZ(input)
@@ -46,10 +47,17 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
     }
 
     fun addNewRestriccion(input : String){
-        val t = supportFragmentManager.beginTransaction()
-        val id = R.id.container
-        t.add(id,RestrictionFr.newInstance(x++,input))
-        t.commit()
+
+        var restriction = Restriction.createRestriction(input)
+
+        if(restriction!=null) {
+            val t = supportFragmentManager.beginTransaction()
+            val id = R.id.container
+            t.add(id, RestrictionFr.newInstance(x++, input))
+            t.commit()
+        }
+        else
+            Toast.makeText(this,"Invalud Input",Toast.LENGTH_LONG).show()
     }
 
     fun removeRestriction(id : Int, f : Fragment){
@@ -82,6 +90,11 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
                     maxMin.text = "Maximizar"
                 else
                     maxMin.text = "Minimizar"
+            }
+
+            R.id.backBtn -> {
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
     }

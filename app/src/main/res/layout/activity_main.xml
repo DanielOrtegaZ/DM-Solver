@@ -32,13 +32,21 @@
         app:layout_constraintVertical_bias="0.2"
         app:srcCompat="@drawable/dm_solver" />
 
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/calculate"
+        app:layout_constraintEnd_toStartOf="@+id/calculate"
+        app:layout_constraintTop_toTopOf="@+id/calculate" />
+
     <Spinner
         android:id="@+id/spinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:backgroundTintMode="add"
         android:backgroundTint="@color/colorAccent"
+        android:backgroundTintMode="add"
         android:minWidth="100dp"
         android:minHeight="40dp"
         app:layout_constraintBottom_toBottomOf="parent"
