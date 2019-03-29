@@ -1,15 +1,17 @@
 # Files: Excluding all
-#*.*
+*.*
 # Folders: Excluding all
 #*/*
-.gradle/
-.gradle/**/*
-.idea/
-.idea/**/*
-local.properties
+#.gradle
+#.gradle/**/*
+#.idea
+#.idea/**/*
+#local.properties
+app/.gitignore
 
 # Files: Including important
-#!.gitignore
+!.gitignore
 # Files: Including java Backend Classes
-#!blogic/*
-#blogic/*.class
+# !app/
+!app/**/main/
+!app/**/main/**/*

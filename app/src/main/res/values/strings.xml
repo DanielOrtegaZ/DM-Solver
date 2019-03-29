@@ -1,8 +1,23 @@
 <resources>
-    <string name="app_name">DM-Solver</string>
-    <string name="start">COMENZAR</string>
-    <string name="title_activity_input">InputActivity</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- ACTIVITIES & APP TITLES-->
+    <string name="app_name">DM-Solver</string>
+    <string name="title_activity_input"></string>
+
+    <!-- Main Activity Strings -->
+    <string name="start">RESTRICCIONES</string>
+    <string name="calculate">CALCULAR</string>
+    <string-array name="methods">
+        <item>Simplex 1</item>
+        <item>Simplex 2</item>
+        <item>Simplex 3</item>
+        <item>Semilla A</item>
+        <item>Geneticos</item>
+    </string-array>
+
+    <!-- Input Activity Strings -->
+    <!-- TODO: Deben ser usadas en código -->
+    <string name="restriccion_ejemplo">12<b>x</b> + 14<b>y</b> &lt; 13</string>
+    <string name="funcion_ejemplo">z = 13x + 15y</string>
+
 </resources>
