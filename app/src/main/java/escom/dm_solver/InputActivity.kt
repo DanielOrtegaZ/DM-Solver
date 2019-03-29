@@ -28,7 +28,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         maxMin.setOnClickListener(this)
         backBtn.setOnClickListener(this)
 
-        addNewRestriccion("12x + 13y <= 14")
+        addNewRestriccion("12x + 13y <= 14".trim())
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
