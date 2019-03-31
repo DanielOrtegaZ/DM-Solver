@@ -48,16 +48,17 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
     fun addNewRestriccion(input : String){
 
-        var restriction = Restriction.createRestriction(input)
-
+        var restriction = Restriction.createRestriction(input.replace("\\s".toRegex(),""))
         if(restriction!=null) {
+            //Toast.makeText(this,restriction,Toast.LENGTH_sHORT).show()
+
             val t = supportFragmentManager.beginTransaction()
             val id = R.id.container
             t.add(id, RestrictionFr.newInstance(x++, input))
             t.commit()
         }
         else
-            Toast.makeText(this,"Invalud Input",Toast.LENGTH_LONG).show()
+            Toast.makeText(this,"Invalud Input",Toast.LENGTH_SHORT).show()
     }
 
     fun removeRestriction(id : Int, f : Fragment){
