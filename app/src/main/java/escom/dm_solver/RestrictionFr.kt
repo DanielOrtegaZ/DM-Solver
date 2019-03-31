@@ -1,8 +1,10 @@
 package escom.dm_solver
 
 import android.content.Context
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -26,7 +28,12 @@ class RestrictionFr : Fragment(), View.OnClickListener {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var viewReturned = inflater.inflate(R.layout.fragment_restriction, container, false)
         viewReturned.imageButton.setOnClickListener(this)
-        viewReturned.label.text = text
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            viewReturned.label.text = Html.fromHtml(text,Html.FROM_HTML_MODE_COMPACT)
+        else
+            viewReturned.label.text = Html.fromHtml(text)
+
         return viewReturned
     }
 

@@ -14,8 +14,12 @@ class Fraction constructor(numerador:Int,denominador:Int){
     }
 
     override fun toString():String{
-        return if(den==1) {
-                   if (num == 1) "" else "${num}"
-               } else "${num}/${den}"
+        val aux = if(num>0) "+ " else "- "
+
+        val varnum = if(num>0) num else -num
+        if(den==1)
+            return aux + "$varnum"
+        else
+            return aux + "$varnum/$den"
     }
 }

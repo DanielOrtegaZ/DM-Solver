@@ -28,7 +28,8 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         maxMin.setOnClickListener(this)
         backBtn.setOnClickListener(this)
 
-        addNewRestriccion("12x + 13y <= 14".trim())
+        if(savedInstanceState == null)
+            addNewRestriccion("12x + 13y <= 14".trim())
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
@@ -50,11 +51,10 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
         var restriction = Restriction.createRestriction(input.replace("\\s".toRegex(),""))
         if(restriction!=null) {
-            //Toast.makeText(this,restriction,Toast.LENGTH_sHORT).show()
-
+            Toast.makeText(this,restriction.toString(),Toast.LENGTH_SHORT).show()
             val t = supportFragmentManager.beginTransaction()
             val id = R.id.container
-            t.add(id, RestrictionFr.newInstance(x++, input))
+            t.add(id, RestrictionFr.newInstance(x++, restriction.toString()))
             t.commit()
         }
         else

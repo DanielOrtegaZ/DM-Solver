@@ -11,9 +11,20 @@ class Restriction {
     var result = Fraction(0,1)
 
     fun addTermino(s:String){
-        Log.d("DM","addTermino ${s}")
-        //Toast.makeText(this,"${f.value.substring( 0..f.value.length-2 )}", Toast.LENGTH_SHORT).show()
-        //Toast.makeText(this,"${f.value.substring( f.value.length-1 )}", Toast.LENGTH_SHORT).show()
+
+        val coef = s.substring(0..s.length-2)
+        val variable = s.substring(s.length-1)
+
+        if(coef.isBlank() || coef.equals("+"))
+            coeficientes.add(Fraction(1, 1))
+
+        else if (coef.equals("-"))
+            coeficientes.add(Fraction(-1,1))
+
+        else
+            coeficientes.add(Fraction(coef))
+
+        variables.add(variable)
     }
 
     companion object { // STATIC METHODS / VARIABLES
@@ -47,9 +58,6 @@ class Restriction {
                 inputx = inputx.substring(op.toString().length)
                 r.result = Fraction( inputx )
 
-                Log.d("DM","operator = ${r.operator}")
-                Log.d("DM","result = ${r.result}")
-
                 return r
             }
             else
@@ -57,11 +65,30 @@ class Restriction {
         }
     }
 
-    /*override fun toString():String{
-        var ret = ""
+    override fun toString():String{
+        var aux = ""
 
-        for(i=0;i<coeficientes.size();i++)
-            ret += "${coeficientes.get(i)} ${variables.get(i)}"
+        if(coeficientes.size == variables.size)
+            for(i in 0..coeficientes.size-1)
+                aux += "${coeficientes.get(i)}<b>${variables.get(i)}</b> "
+        else return ""
 
-    }*/
+        if(aux.startsWith("+ "))
+            aux = aux.substring(2)
+        else
+            aux = "-"+aux.substring(2)
+
+        when(operator){
+            MAYOR_IGUAL -> aux += "&qeq "
+            MENOR_IGUAL -> aux += "&leq "
+            IGUAL -> aux += "= "
+        }
+
+        aux += if(result.num>0)
+                result.toString().substring(2)
+            else
+                "-"+result.toString().substring(2)
+
+        return aux
+    }
 }
