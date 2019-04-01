@@ -51,7 +51,6 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
         var restriction = Restriction.createRestriction(input.replace("\\s".toRegex(),""))
         if(restriction!=null) {
-            Toast.makeText(this,restriction.toString(),Toast.LENGTH_SHORT).show()
             val t = supportFragmentManager.beginTransaction()
             val id = R.id.container
             t.add(id, RestrictionFr.newInstance(x++, restriction.toString()))

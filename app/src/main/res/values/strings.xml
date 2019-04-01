@@ -3,6 +3,8 @@
     <!-- ACTIVITIES & APP TITLES-->
     <string name="app_name">DM-Solver</string>
     <string name="title_activity_input"></string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_main">DM Solver</string>
 
     <!-- Main Activity Strings -->
     <string name="start">RESTRICCIONES</string>

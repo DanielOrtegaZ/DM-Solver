@@ -17,7 +17,10 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setSupportActionBar(toolbar)
         comenzar.setOnClickListener(this)
+        calculate.setOnClickListener(this)
+        settings.setOnClickListener(this)
         calculate.setOnClickListener(this)
 
         val adapter = ArrayAdapter.createFromResource(this,R.array.methods,android.R.layout.simple_spinner_item)
@@ -32,6 +35,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
             comenzar -> {
                 val intent = Intent(this,InputActivity::class.java)
                 startActivityForResult(intent,200)
+            }
+            settings -> {
+                val intent = Intent(this,SettingsActivity::class.java)
+                startActivityForResult(intent,300)
+            }
+            calculate -> {
+                val intent = Intent(this,OutputActivity::class.java)
+                startActivityForResult(intent,400)
             }
         }
     }
