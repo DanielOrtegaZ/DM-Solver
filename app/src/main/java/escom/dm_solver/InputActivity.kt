@@ -5,9 +5,12 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import android.widget.Toast
+import escom.dm_solver.classes.FuncionZ
 import escom.dm_solver.classes.Restriction
+import escom.dm_solver.classes.Session
 import kotlinx.android.synthetic.main.activity_input.*
 
 class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogListener, View.OnClickListener {
@@ -28,8 +31,10 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         maxMin.setOnClickListener(this)
         backBtn.setOnClickListener(this)
 
-        if(savedInstanceState == null)
-            addNewRestriccion("12x + 13y <= 14".trim())
+        if(savedInstanceState == null) {
+            addNewRestriccion("12x + 13y <= 14")
+            declareZ("z = 12x + 13y")
+        }
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
@@ -47,27 +52,38 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         }
     }
 
+    fun declareZ(input:String){
+
+        val z = FuncionZ.createZ(input.replace("\\s".toRegex(),""))
+        if(z != null){
+            functionZ.text = z.toString()
+            Session.instance.funcionZ = z
+        }
+        else
+            Toast.makeText(this,"Invalud Input",Toast.LENGTH_SHORT).show()
+    }
+
     fun addNewRestriccion(input : String){
 
         var restriction = Restriction.createRestriction(input.replace("\\s".toRegex(),""))
         if(restriction!=null) {
+
+            Session.instance.restrictions.add(restriction)
             val t = supportFragmentManager.beginTransaction()
             val id = R.id.container
             t.add(id, RestrictionFr.newInstance(x++, restriction.toString()))
             t.commit()
         }
-        else
-            Toast.makeText(this,"Invalud Input",Toast.LENGTH_SHORT).show()
+        else {
+            Toast.makeText(this, "Invalud Input Z", Toast.LENGTH_SHORT).show()
+            Log.d("DM",input)
+        }
     }
 
     fun removeRestriction(id : Int, f : Fragment){
         val t = supportFragmentManager.beginTransaction()
         t.remove(f)
         t.commit()
-    }
-
-    fun declareZ(input:String){
-        functionZ.text = input
     }
 
     override fun onClick(v : View){
@@ -81,7 +97,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
             R.id.imageButton-> {
                 accion = EDIT_Z
-                NoticeDialogFragment.newInstance(0,"Restriccion","12x + 13y <= 14")
+                NoticeDialogFragment.newInstance(0,"Funcion Óptima","z = 2x + 3y")
                         .show(supportFragmentManager,"NoticeDialogFragment")
             }
 

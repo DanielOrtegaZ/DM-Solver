@@ -58,6 +58,7 @@ class Restriction {
                 inputx = inputx.substring(op.toString().length)
                 r.result = Fraction( inputx )
 
+                Log.d("DM","Fraction Created $r")
                 return r
             }
             else

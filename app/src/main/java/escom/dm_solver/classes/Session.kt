@@ -12,4 +12,6 @@ class Session private constructor(){
     }
 
     var restrictions = ArrayList<Restriction>()
+    var funcionZ = FuncionZ()
+    var maximizar = true
 }
