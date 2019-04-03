@@ -3,7 +3,7 @@ import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
 import kotlin.math.*
 
-class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Restriction, numVariables: Int, exponente:Int,numVectores:Int){
+class Genetico {
 
     var restriccion = restricciones
     var funcion = funcionZ
@@ -20,6 +20,7 @@ class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Rest
     var valorTotalZ = 0.0
     var porcentaje = 0.0
     var porcentajeAcum = 0.0
+
     fun calcular(){
         valorTotalZ = 0.0
         porcentajeAcum = 0.0
@@ -107,8 +108,9 @@ class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Rest
         var respuesta = ""
         for(i in 0 until vector.size){
             for(j in 0 until vector[i].size){
-                respuesta += vector[i][j].toString()
+                respuesta += vector[i][j].toString() + " "
             }
+            respuesta+= "\n"
         }
     }
 
