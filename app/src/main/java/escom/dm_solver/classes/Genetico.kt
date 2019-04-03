@@ -1,4 +1,5 @@
 package escom.dm_solver.classes
+import android.util.Log
 import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
 import kotlin.math.*
@@ -24,7 +25,7 @@ class Genetico {
     fun calcular(){
 
         ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
-
+        //log.d("tag", variableString)
         valorTotalZ = 0.0
         porcentajeAcum = 0.0
         for(i in 0 until numVar){
@@ -115,6 +116,7 @@ class Genetico {
             }
             respuesta+= "\n"
         }
+        Log.d("Tag",respuesta)
     }
 
 }
