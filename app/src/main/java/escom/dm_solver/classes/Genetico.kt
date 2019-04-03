@@ -74,7 +74,7 @@ class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Rest
             for(j in 0 until numVect){
                 if(vector[i][numVar*2+3] <= vector[j][numVar*2+2]){
                     vector[i].add(j.toDouble())
-                    break;
+                    break
                 }
             }
             var bandera = 1
@@ -87,13 +87,13 @@ class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Rest
                 if(restriccion[j].operator.equals(MAYOR_IGUAL)){
                     if(acumulado < result){
                         bandera = 0
-                        break;
+                        break
                     }
                 }
                 else if(restriccion[j].operator.equals(MENOR_IGUAL)){
                     if(acumulado > result){
                         bandera = 0
-                        break;
+                        break
                     }
                 }
             }
@@ -103,7 +103,12 @@ class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Rest
                 vector[i].add(0.0)
             }
 
-
+        }
+        var respuesta = ""
+        for(i in 0 until vector.size){
+            for(j in 0 until vector[i].size){
+                respuesta += vector[i][j].toString()
+            }
         }
     }
 
