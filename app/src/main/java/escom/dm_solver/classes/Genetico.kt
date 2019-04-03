@@ -1,4 +1,6 @@
 package escom.dm_solver.classes
+import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
+import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
 import kotlin.math.*
 
 class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Restriction, numVariables: Int, exponente:Int,numVectores:Int){
@@ -75,6 +77,33 @@ class Genetico  constructor(restricciones: ArrayList<Restriction>,funcionZ: Rest
                     break;
                 }
             }
+            var bandera = 1
+            for(j in 0 until restriccion.size){
+                var acumulado = 0.0
+                for(k in 0 until restriccion.get(j).coeficientes.size){
+                    acumulado += vector[i][k+numVar]
+                }
+                result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
+                if(restriccion[j].operator.equals(MAYOR_IGUAL)){
+                    if(acumulado < result){
+                        bandera = 0
+                        break;
+                    }
+                }
+                else if(restriccion[j].operator.equals(MENOR_IGUAL)){
+                    if(acumulado > result){
+                        bandera = 0
+                        break;
+                    }
+                }
+            }
+            if(bandera == 1){
+                vector[i].add(1.0)
+            }else{
+                vector[i].add(0.0)
+            }
+
+
         }
     }
 
