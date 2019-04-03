@@ -1,15 +1,16 @@
 package escom.dm_solver.classes
+import android.util.Log
 import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
 import kotlin.math.*
 
 class Genetico {
 
-    var restriccion = restricciones
-    var funcion = funcionZ
-    var numVar = numVariables
-    var exp = exponente.toDouble()
-    var numVect =numVectores
+    var restriccion = Session.instance.restrictions
+    var funcion = Session.instance.funcionZ //
+    var numVar = 2 //
+    var exp = 2.0 //
+    var numVect = 5 //
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
     var mj = ArrayList<Int>()
@@ -22,6 +23,9 @@ class Genetico {
     var porcentajeAcum = 0.0
 
     fun calcular(){
+
+        ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
+        //log.d("tag", variableString)
         valorTotalZ = 0.0
         porcentajeAcum = 0.0
         for(i in 0 until numVar){
@@ -112,6 +116,7 @@ class Genetico {
             }
             respuesta+= "\n"
         }
+        Log.d("Tag",respuesta)
     }
 
 }
