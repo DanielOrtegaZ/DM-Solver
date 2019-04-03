@@ -28,10 +28,30 @@ class Fraction constructor(numerador:Int,denominador:Int){
         }*/
         fun sum(a:Fraction,b:Fraction):Fraction{
             TODO( "Crear el método de suma" )
-            /*a.num = a.num*b.den + b.num*a.den
+            a.num = a.num*b.den + b.num*a.den
             a.den = a.den*b.den
-            a = simplifica(a)
-            return a*/
+            //a = simplifica(a)
+            return a
+        }
+        fun res(a:Fraction,b:Fraction):Fraction{
+            TODO( "Crear el método de resta" )
+            a.num = a.num*b.den - b.num*a.den
+            a.den = a.den*b.den
+            //a = simplifica(a)
+            return a
+        }
+        fun mul(a:Fraction,b:Fraction):Fraction{
+            TODO( "Crear el método de multiplicacion" )
+            a.num = a.num*b.num
+            a.den = a.den*b.den
+            //a = simplifica(a)
+            return a
+        }
+        fun div(a:Fraction,b:Fraction):Fraction{
+            TODO( "Crear el método de division" )
+            a.num = a.num*b.den
+            a.den = a.den*b.num
+            //a = simplifica(a)
             return a
         }
     }
