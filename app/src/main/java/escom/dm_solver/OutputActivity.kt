@@ -28,14 +28,22 @@ class OutputActivity : AppCompatActivity() {
         val table = TableLayout(this)
         table.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
 
-        val row = TableRow(this)
-        row.layoutParams = tableParams
+        for(i in 0..5) {
 
-        val text = TextView(this)
-        text.layoutParams = rowParams
+            var row = TableRow(this)
+            row.layoutParams = tableParams
 
-        row.addView(text)
-        table.addView(row)
+                for(j in 0..11) {
+                    var text = TextView(this)
+                    text.text = (i*j).toString()
+                    text.layoutParams = rowParams
+                    row.addView(text)
+                }
+
+
+            table.addView(row)
+        }
+
         container.addView(table)
     }
 }
