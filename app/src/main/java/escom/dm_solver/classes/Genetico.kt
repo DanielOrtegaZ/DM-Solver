@@ -99,7 +99,7 @@ class Genetico {
                     if(acumulado > result){
                         bandera = 0
                         break
-                    }
+                     }
                 }
             }
             if(bandera == 1){

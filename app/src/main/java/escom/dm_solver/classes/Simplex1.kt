@@ -3,7 +3,8 @@ package escom.dm_solver.classes
 import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 
 class  Simplex1 {
-   /* companion object {
+    /*companion object {
+
 
         fun calcular(restricciones: ArrayList<Restriction>,funcionZ: FunctionZ, numRestricciones: int, numMayorIgual: int, numeroVar:int) {
 
@@ -44,5 +45,4 @@ class  Simplex1 {
             }
         }
     }*/
-
 }

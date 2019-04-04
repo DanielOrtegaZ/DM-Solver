@@ -7,7 +7,7 @@ class Fraction constructor(numerador:Int,denominador:Int){
     constructor(s:String): this( s.substringBefore('/').toInt(), if(s.contains('/')) s.substringAfter('/').toInt() else 1)
 
     companion object {
-        /*fun simplifica(a:Fraction):Fraction{
+        fun simplifica(a:Fraction):Fraction{
             var i = 2
             var bandera=0
             while(i <= a.den){
@@ -20,41 +20,35 @@ class Fraction constructor(numerador:Int,denominador:Int){
                 i++
             }
             if(bandera==1){
-                a=simplifica(a)
+                 return simplifica(a)
             }
             else{
                 return a
             }
-        }*/
-        fun sum(a:Fraction,b:Fraction):Fraction{
-            TODO( "Crear el método de suma" )
+        }
+        fun suma(a:Fraction,b:Fraction):Fraction{
             a.num = a.num*b.den + b.num*a.den
             a.den = a.den*b.den
-            //a = simplifica(a)
-            return a
+            return simplifica(a)
         }
-        fun res(a:Fraction,b:Fraction):Fraction{
-            TODO( "Crear el método de resta" )
+        fun resta(a:Fraction,b:Fraction):Fraction{
             a.num = a.num*b.den - b.num*a.den
             a.den = a.den*b.den
-            //a = simplifica(a)
-            return a
+            return simplifica(a)
         }
-        fun mul(a:Fraction,b:Fraction):Fraction{
-            TODO( "Crear el método de multiplicacion" )
+        fun multiplica(a:Fraction,b:Fraction):Fraction{
             a.num = a.num*b.num
             a.den = a.den*b.den
-            //a = simplifica(a)
-            return a
+            return simplifica(a)
         }
-        fun div(a:Fraction,b:Fraction):Fraction{
-            TODO( "Crear el método de division" )
+        fun divide(a:Fraction,b:Fraction):Fraction{
             a.num = a.num*b.den
             a.den = a.den*b.num
-            //a = simplifica(a)
-            return a
+            return simplifica(a)
+
         }
     }
+
 
     override fun toString():String{
         val aux = if(num>0) "+ " else "- "
