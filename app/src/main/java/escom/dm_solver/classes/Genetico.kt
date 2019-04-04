@@ -133,7 +133,9 @@ class Genetico {
             for(j in 0 until restriccion.size){
                 var acumulado = 0.0
                 for(k in 0 until restriccion.get(j).coeficientes.size){
-                    acumulado += vector[i][k+numVar] *( restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
+                    if(restriccion[j].coeficientes[k].num !=0 ) {
+                        acumulado += vector[i][k + numVar] * (restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
+                    }
                 }
 
                 result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
