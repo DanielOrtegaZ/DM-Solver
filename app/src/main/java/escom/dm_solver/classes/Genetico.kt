@@ -10,9 +10,9 @@ class Genetico {
     var restriccion = ArrayList<Restriction>()
     var funcion = Session.instance.funcionZ
     var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
-    var exp = 2.0 // Exponente del 10
-    var numVect = 10 // Numero de vectores que se tienen que hacer
-    var iteracion = 100 //Numero de iteraciones que se tienen que hacer
+    var exp = Session.instance.settings.bitPrecision
+    var numVect = Session.instance.settings.numMiembros
+    var iteracion = Session.instance.settings.numIteraciones
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
     var mj = ArrayList<Int>()
@@ -294,6 +294,16 @@ class Genetico {
                     for (j in 0 until vector[ruletaVector].size) {
 
                         if (j == exponenteCaeBit) {
+                            ////////int i = 6
+                            /*
+                                0110 - 0010
+                                1 << 2 = 100
+                                0110 ^ 0100 = 0010
+                                1 << i
+
+                             */
+
+
                             var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j], j)
                             var exponenteBinarioMod = 0.0
                             //Log.d("Tag", exponenteBinario)
