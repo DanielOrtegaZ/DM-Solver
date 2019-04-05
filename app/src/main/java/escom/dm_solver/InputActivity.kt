@@ -35,6 +35,10 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
             addNewRestriccion("12x + 13y <= 14")
             declareZ("z = 12x + 13y")
         }
+
+        val max = Session.instance.maximizar
+        if(max != maxMin.isChecked)
+            maxMin.performClick()
     }
 
     override fun onDialogNegativeClick(dialog: DialogFragment) {
@@ -83,7 +87,6 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
     fun removeRestriction(id : Int, f : Fragment){
         val t = supportFragmentManager.beginTransaction()
         f as RestrictionFr
-        Log.d("DM","Removing Restriction ${f.rid}")
         Session.instance.restrictions.set(f.rid,null)
         t.remove(f)
         t.commit()
@@ -109,6 +112,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
                     maxMin.text = "Maximizar"
                 else
                     maxMin.text = "Minimizar"
+                Session.instance.maximizar = maxMin.isChecked
             }
 
             R.id.backBtn -> {
