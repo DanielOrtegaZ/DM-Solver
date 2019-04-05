@@ -25,7 +25,7 @@ class Genetico {
     var valoresMin = ArrayList <Double>()
     var valoresMax = ArrayList <Double>()
 
-    init {
+    init { // Copiando las restricciones
         val res = Session.instance.restrictions
         res.forEach { r ->
             if( r != null )
@@ -34,7 +34,9 @@ class Genetico {
     }
 
 
+// TODO: Pasar esta operación a la clase Vector
     fun convertirDecimalABinario(n: Double, coef:Int): String {
+
         var n = n.toInt()
         var binaryNumber: Double = 0.0
         var modulo: Int
@@ -56,29 +58,33 @@ class Genetico {
     fun calcular(){
 
         var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
-
         ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
-
-
         valorTotalZ = 0.0
         porcentajeAcum = 0.0
         for(i in 0 until numVar){
             min.add(1000000000.0)
             max.add(-100000000.0)
         }
+
         for(i in 0 until numVar + 1){
             valoresMin.add(1000000000.0)
             valoresMax.add(-100000000.0)
         }
-        //////////////
+
+        // Seing Coeficientes
         Log.d("TAG", "Valores de Z")
-        for(i in 0 until funcion.coeficientes.size){
-            coef = (funcion.coeficientes.get(i).num).toDouble() / (funcion.coeficientes.get(i).den).toDouble()
-            Log.d("TAG", "valor coeficiente: " +  coef)
+        funcion.coeficientes.forEach { c ->
+            Log.d("TAG","Valor coeficiente: " + c.toDouble() )
         }
-        //////////////
-        Log.d("TAG", "Restricciones")
-        Log.d("TAG", "Restriccion size: " +  restriccion.size)
+
+        Log.d("TAG", "Restricciones" )
+        Log.d("TAG", "Restriccion size: " +  restriccion.size )
+        var i = 0;
+        restriccion.forEach { r ->
+            result = r.result.toDouble()
+            Log.d("TAG", "Restriccion numero: " + i++)
+        }
+
         for(i in 0 until restriccion.size){
              result = (restriccion.get(i).result.num).toDouble() / (restriccion.get(i).result.den).toDouble()
             Log.d("TAG", "Restriccion numero: " + i)
@@ -100,6 +106,8 @@ class Genetico {
             Log.d("TAG", "Simbolo: " + restriccion.get(i).operator)
             Log.d("TAG", "valor result: " +  result)
         }
+
+        /*
         for (i in 0 until min.size){
 
             Log.d("TAG", "Valor minimo en posicion " + i + " " + min[i].toString()+ " ")
@@ -401,7 +409,6 @@ class Genetico {
                 } else {
                     vector[i][numVar * 2 + 5] = 0.0
                 }
-
             }
 
             var impresion = "\n"
@@ -415,15 +422,14 @@ class Genetico {
 
             maximos = "\n"
             minimos = "\n"
+
             for (i in 0 until numVar + 1) {
                 maximos += valoresMax[i].toString() + " "
                 minimos += valoresMin[i].toString() + " "
-
             }
+
             Log.d("Tag", minimos)
             Log.d("Tag", maximos)
-        }
-
-
+        }*/
     }
 }

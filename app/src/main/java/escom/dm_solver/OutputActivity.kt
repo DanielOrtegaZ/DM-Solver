@@ -59,6 +59,6 @@ class OutputActivity : AppCompatActivity() {
         row.layoutParams = tableParams
     }
 
-    private fun commitRow(){  table.addView(row)  }
+    private fun commitRow(){    table.addView(row)  }
     private fun commitTable(){  container.addView(table) }
 }
