@@ -80,7 +80,7 @@ class Restriction {
             aux = "-"+aux.substring(2)
 
         when(operator){
-            MAYOR_IGUAL -> aux += "&qeq "
+            MAYOR_IGUAL -> aux += "&geq "
             MENOR_IGUAL -> aux += "&leq "
             IGUAL -> aux += "= "
         }
