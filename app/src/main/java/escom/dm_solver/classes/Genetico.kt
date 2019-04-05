@@ -215,202 +215,202 @@ class Genetico {
         Log.d("Tag",minimos)
         Log.d("Tag",maximos)
 
-        var cubeta = ArrayList<Int>()
-        var numerosVect = ArrayList<Int>()
-        var totalVectDif = 0
-        var aux = 0
-        for(i in 0 until numVect){
-            cubeta.add(0)
-            numerosVect.add(i)
-        }
-        for(i in 0 until numVect){
-            if(cubeta[vector[i][numVar*2+4].toInt()] == 0){
-                totalVectDif++
-            }
-            cubeta[vector[i][numVar*2+4].toInt()]++
-        }
-        for(i in 0 until numVect){
-            for(j in i until numVect){
-                if(cubeta[i] < cubeta[j]){
-                    aux = cubeta[i]
-                    cubeta[i] = cubeta[j]
-                    cubeta[j] = aux
-                    aux = numerosVect[i]
-                    numerosVect[i] = numerosVect[j]
-                    numerosVect[j] = aux
-                }
-            }
-        }
-        var vectorCopia = ArrayList<ArrayList<Double>>(emptyList())
-        for(i in 0 until numVect ){
-            var nuevalista = ArrayList<Double>()
-            vectorCopia.add(nuevalista)
-            if(i < totalVectDif) {
-                for (j in 0 until vector[i].size) {
-                    vectorCopia[i].add(vector[numerosVect[i]][j])
-                }
-            }
-        }
+        for(w in 1 until iteracion) {
 
-        vector =  ArrayList<ArrayList<Double>>(emptyList())
-        //Agrego mis vectores anteriores
 
-        var nuevosVectores = "\n"
-        var ruletaVector = 0
-        valorTotalZ = 0.0
-        porcentajeAcum = 0.0
-        for(i in 0 until numVect ) {
-            var nuevalista = ArrayList<Double>()
-            vector.add(nuevalista)
-            if(i < totalVectDif){
-                for (j in 0 until vectorCopia[i].size) {
-                    vector[i].add(vectorCopia[i][j])
-                    nuevosVectores += vector[i][j].toString() + " "
-                }
+            var cubeta = ArrayList<Int>()
+            var numerosVect = ArrayList<Int>()
+            var totalVectDif = 0
+            var aux = 0
+            for (i in 0 until numVect) {
+                cubeta.add(0)
+                numerosVect.add(i)
             }
-            else{
-                var mjTotal = 0
-                for(j in 0 until mj.size){
-                    mjTotal+=mj[j] - 1
+            for (i in 0 until numVect) {
+                if (cubeta[vector[i][numVar * 2 + 4].toInt()] == 0) {
+                    totalVectDif++
                 }
-                var numBit = (0 until (mjTotal)).random()
-                var bitsAcumulados = 0
-                var exponenteCaeBit = mj.size -1
-                var indiceBit = 0
-                for(j in 0 until mj.size){
-                    bitsAcumulados += mj[j] -1
-                    if(bitsAcumulados>=numBit){
-                        exponenteCaeBit = j
-                        break;
+                cubeta[vector[i][numVar * 2 + 4].toInt()]++
+            }
+            for (i in 0 until numVect) {
+                for (j in i until numVect) {
+                    if (cubeta[i] < cubeta[j]) {
+                        aux = cubeta[i]
+                        cubeta[i] = cubeta[j]
+                        cubeta[j] = aux
+                        aux = numerosVect[i]
+                        numerosVect[i] = numerosVect[j]
+                        numerosVect[j] = aux
                     }
-                    indiceBit += mj[j] - 1
                 }
-                indiceBit = numBit - indiceBit //tengo que cambiar mi exponente en el que cae el bit a binario y cambiarle en la pos ndicebit
-                for(j in 0 until vector[ruletaVector].size){
+            }
+            var vectorCopia = ArrayList<ArrayList<Double>>(emptyList())
+            for (i in 0 until numVect) {
+                var nuevalista = ArrayList<Double>()
+                vectorCopia.add(nuevalista)
+                if (i < totalVectDif) {
+                    for (j in 0 until vector[i].size) {
+                        vectorCopia[i].add(vector[numerosVect[i]][j])
+                    }
+                }
+            }
 
-                    if(j == exponenteCaeBit){
-                        var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j])
-                        var exponenteBinarioMod = 0.0
-                        //Log.d("Tag", exponenteBinario)
-                        for(l in 0 until exponenteBinario.length){ ///tratar de no usar otro string y obtener el valor decimal en este for
-                            if(l == exponenteBinario.length - indiceBit){
-                                if(exponenteBinario.get(l)=='0') {
-                                    exponenteBinarioMod+= (2.0).pow(l)
-                                }
+            vector = ArrayList<ArrayList<Double>>(emptyList())
+            //Agrego mis vectores anteriores
 
-                            }
-                            else {
-                                if(exponenteBinario.get(l)=='1')
-                                {
-                                    exponenteBinarioMod+= (2.0).pow(l)
-                                }
-
-                            }
+            var nuevosVectores = "\n"
+            var ruletaVector = 0
+            valorTotalZ = 0.0
+            porcentajeAcum = 0.0
+            for (i in 0 until numVect) {
+                var nuevalista = ArrayList<Double>()
+                vector.add(nuevalista)
+                if (i < totalVectDif) {
+                    for (j in 0 until vectorCopia[i].size) {
+                        vector[i].add(vectorCopia[i][j])
+                        nuevosVectores += vector[i][j].toString() + " "
+                    }
+                } else {
+                    var mjTotal = 0
+                    for (j in 0 until mj.size) {
+                        mjTotal += mj[j] - 1
+                    }
+                    var numBit = (0 until (mjTotal)).random()
+                    var bitsAcumulados = 0
+                    var exponenteCaeBit = mj.size - 1
+                    var indiceBit = 0
+                    for (j in 0 until mj.size) {
+                        bitsAcumulados += mj[j] - 1
+                        if (bitsAcumulados >= numBit) {
+                            exponenteCaeBit = j
+                            break;
                         }
-                        vector[i].add(exponenteBinarioMod)
+                        indiceBit += mj[j] - 1
                     }
-                    else{
-                        vector[i].add(vector[ruletaVector][j])
+                    indiceBit = numBit - indiceBit //tengo que cambiar mi exponente en el que cae el bit a binario y cambiarle en la pos ndicebit
+                    for (j in 0 until vector[ruletaVector].size) {
+
+                        if (j == exponenteCaeBit) {
+                            var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j])
+                            var exponenteBinarioMod = 0.0
+                            //Log.d("Tag", exponenteBinario)
+                            for (l in 0 until exponenteBinario.length) { ///tratar de no usar otro string y obtener el valor decimal en este for
+                                if (l == exponenteBinario.length - indiceBit) {
+                                    if (exponenteBinario.get(l) == '0') {
+                                        exponenteBinarioMod += (2.0).pow(l)
+                                    }
+
+                                } else {
+                                    if (exponenteBinario.get(l) == '1') {
+                                        exponenteBinarioMod += (2.0).pow(l)
+                                    }
+
+                                }
+                            }
+                            vector[i].add(exponenteBinarioMod)
+                        } else {
+                            vector[i].add(vector[ruletaVector][j])
+                        }
+
                     }
+
+                    ruletaVector++
+                    if (ruletaVector >= totalVectDif) ruletaVector = 0
 
                 }
 
-                ruletaVector++
-                if(ruletaVector>=totalVectDif) ruletaVector = 0
+                //EN ESTA PARTE SE CONVIERTEN DE NUESTRO VALOR BINARIO AL DECIMAL Y SE AGREGAN AL VECTOR, TAMBIÉN SE OBTIENE Z
+                valorZ = 0.0
+                //  Log.d("TAG", "Vector " + i)
 
-            }
-
-            //EN ESTA PARTE SE CONVIERTEN DE NUESTRO VALOR BINARIO AL DECIMAL Y SE AGREGAN AL VECTOR, TAMBIÉN SE OBTIENE Z
-            valorZ = 0.0
-            //  Log.d("TAG", "Vector " + i)
-
-            for(j in 0 until numVar){
-                vector[i][j+numVar] = min[j] + vector[i][j] * ( (max[j]-min[j]) / ((2.0).pow(mj[j]) -1) )
-            }
-
-            for(j in 0 until funcion.coeficientes.size){
-                coef = (funcion.coeficientes.get(j).num).toDouble() / (funcion.coeficientes.get(j).den).toDouble()
-                valorZ += coef * vector[i][j+numVar]
-            }
-            vector[i][numVar*2] = valorZ
-            valorTotalZ += valorZ
-        }
-        for(i in 0 until numVect){
-            porcentaje = vector[i][numVar*2] / valorTotalZ
-            porcentajeAcum += porcentaje
-            vector[i][numVar*2 + 1] = porcentaje
-            if(i == numVect -1) vector[i][numVar*2 + 2] = 1.0000000000000
-            else vector[i][numVar*2 + 2] = porcentajeAcum
-            vector[i][numVar*2 + 3] = ((1..99).random()).toDouble() /100
-        }
-
-        for(i in 0 until numVect){
-            for(j in 0 until numVect){
-                if(vector[i][numVar*2+3] <= vector[j][numVar*2+2]){
-                    vector[i][numVar*2+4] = j.toDouble()
-                    break
-                }
-            }
-            var bandera = 1
-            for(j in 0 until restriccion.size){
-                var acumulado = 0.0
-                for(k in 0 until restriccion.get(j).coeficientes.size){
-                    if(restriccion[j].coeficientes[k].num !=0 ) {
-                        acumulado += vector[i][k + numVar] * (restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
-                    }
+                for (j in 0 until numVar) {
+                    vector[i][j + numVar] = min[j] + vector[i][j] * ((max[j] - min[j]) / ((2.0).pow(mj[j]) - 1))
                 }
 
-                result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
-                // Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
-                if(restriccion[j].operator.equals(MAYOR_IGUAL)){
-                    if(acumulado < result){
-                        bandera = 0
+                for (j in 0 until funcion.coeficientes.size) {
+                    coef = (funcion.coeficientes.get(j).num).toDouble() / (funcion.coeficientes.get(j).den).toDouble()
+                    valorZ += coef * vector[i][j + numVar]
+                }
+                vector[i][numVar * 2] = valorZ
+                valorTotalZ += valorZ
+            }
+            for (i in 0 until numVect) {
+                porcentaje = vector[i][numVar * 2] / valorTotalZ
+                porcentajeAcum += porcentaje
+                vector[i][numVar * 2 + 1] = porcentaje
+                if (i == numVect - 1) vector[i][numVar * 2 + 2] = 1.0000000000000
+                else vector[i][numVar * 2 + 2] = porcentajeAcum
+                vector[i][numVar * 2 + 3] = ((1..99).random()).toDouble() / 100
+            }
+
+            for (i in 0 until numVect) {
+                for (j in 0 until numVect) {
+                    if (vector[i][numVar * 2 + 3] <= vector[j][numVar * 2 + 2]) {
+                        vector[i][numVar * 2 + 4] = j.toDouble()
                         break
                     }
                 }
-                else if(restriccion[j].operator.equals(MENOR_IGUAL)){
-                    if(acumulado > result){
-                        bandera = 0
-                        break
+                var bandera = 1
+                for (j in 0 until restriccion.size) {
+                    var acumulado = 0.0
+                    for (k in 0 until restriccion.get(j).coeficientes.size) {
+                        if (restriccion[j].coeficientes[k].num != 0) {
+                            acumulado += vector[i][k + numVar] * (restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
+                        }
+                    }
+
+                    result = restriccion[j].result.num.toDouble() / restriccion[j].result.den.toDouble()
+                    // Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
+                    if (restriccion[j].operator.equals(MAYOR_IGUAL)) {
+                        if (acumulado < result) {
+                            bandera = 0
+                            break
+                        }
+                    } else if (restriccion[j].operator.equals(MENOR_IGUAL)) {
+                        if (acumulado > result) {
+                            bandera = 0
+                            break
+                        }
                     }
                 }
-            }
-            if(bandera == 1){
-                vector[i][numVar*2+5] = 1.0
-                if(valoresMin[numVar] > vector[i][numVar*2]) {
-                    for(j in 0 until numVar+1){
-                        valoresMin[j] = vector[i][numVar+j]
+                if (bandera == 1) {
+                    vector[i][numVar * 2 + 5] = 1.0
+                    if (valoresMin[numVar] > vector[i][numVar * 2]) {
+                        for (j in 0 until numVar + 1) {
+                            valoresMin[j] = vector[i][numVar + j]
+                        }
                     }
-                }
-                if(valoresMax[numVar] < vector[i][numVar*2]){
-                    for(j in 0 until numVar+1){
-                        valoresMax[j] = vector[i][numVar+j]
+                    if (valoresMax[numVar] < vector[i][numVar * 2]) {
+                        for (j in 0 until numVar + 1) {
+                            valoresMax[j] = vector[i][numVar + j]
+                        }
                     }
+                } else {
+                    vector[i][numVar * 2 + 5] = 0.0
                 }
-            }else{
-                vector[i][numVar*2+5] = 0.0
+
             }
 
-        }
-
-        var impresion = "\n"
-        for(i in 0 until vector.size){
-            for(j in 0 until vector[i].size){
-                impresion += vector[i][j].toString() + " "
+            var impresion = "\n"
+            for (i in 0 until vector.size) {
+                for (j in 0 until vector[i].size) {
+                    impresion += vector[i][j].toString() + " "
+                }
+                Log.d("Tag", impresion)
+                impresion = ""
             }
-            Log.d("Tag", impresion)
-            impresion = ""
+
+            maximos = "\n"
+            minimos = "\n"
+            for (i in 0 until numVar + 1) {
+                maximos += valoresMax[i].toString() + " "
+                minimos += valoresMin[i].toString() + " "
+
+            }
+            Log.d("Tag", minimos)
+            Log.d("Tag", maximos)
         }
 
-        maximos = "\n"
-        minimos = "\n"
-        for(i in 0 until numVar + 1){
-            maximos += valoresMax[i].toString() + " "
-            minimos += valoresMin[i].toString() + " "
-
-        }
-        Log.d("Tag",minimos)
-        Log.d("Tag",maximos)
 
     }
 }
