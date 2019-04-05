@@ -22,4 +22,8 @@
     <string name="restriccion_ejemplo">12<b>x</b> + 14<b>y</b> &lt; 13</string>
     <string name="funcion_ejemplo">z = 13x + 15y</string>
 
+    <!-- Output Activity Strings -->
+    <string name="cancel">CANCELAR</string>
+    <string name="accept">ACEPTAR</string>
+
 </resources>

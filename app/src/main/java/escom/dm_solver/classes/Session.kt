@@ -19,6 +19,6 @@ class Session private constructor(){
     class Settings {
         var bitPrecision = 1
         var numIteraciones = 3
-        var poblacionLength = 5
+        var numMiembros = 5
     }
 }
