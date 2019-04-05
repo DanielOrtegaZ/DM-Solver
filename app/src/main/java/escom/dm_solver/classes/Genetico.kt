@@ -124,7 +124,7 @@ class Genetico {
             vector.add(nuevalista)
           //  Log.d("TAG", "Vector " + i)
             for(j in 0 until numVar){
-                var exponente = ((2.0).pow(mj.get(j)-1)).toInt()
+                var exponente = ((2.0).pow(mj.get(j))).toInt()
                 var binarioDecimal = (0 until exponente).random().toDouble()
 
                 vector[i].add(binarioDecimal)
