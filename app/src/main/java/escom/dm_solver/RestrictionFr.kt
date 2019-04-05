@@ -14,7 +14,6 @@ class RestrictionFr : Fragment(), View.OnClickListener {
 
     var rid: Int = -1
     private var text: String? = null
-    //private var listener: OnFragmentInteractionListener? = null
 
     companion object {
         fun newInstance(id:Int,text:String) = RestrictionFr().apply {
