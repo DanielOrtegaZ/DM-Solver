@@ -11,8 +11,8 @@ class Genetico {
     var funcion = Session.instance.funcionZ
     var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
     var exp = 2.0 // Exponente del 10
-    var numVect = 5 // Numero de vectores que se tienen que hacer
-    var iteracion = 4 //Numero de iteraciones que se tienen que hacer
+    var numVect = 10 // Numero de vectores que se tienen que hacer
+    var iteracion = 100 //Numero de iteraciones que se tienen que hacer
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
     var mj = ArrayList<Int>()
@@ -34,7 +34,7 @@ class Genetico {
     }
 
 
-    fun convertirDecimalABinario(n: Double): String {
+    fun convertirDecimalABinario(n: Double, coef:Int): String {
         var n = n.toInt()
         var binaryNumber: Double = 0.0
         var modulo: Int
@@ -44,6 +44,11 @@ class Genetico {
             modulo = (n % 2).toInt()
             binarioVolteado+=modulo
             n /= 2
+        }
+        for(i in 0 until (mj[coef]-1)){
+            if(i>=binarioVolteado.length){
+                binarioVolteado+="0"
+            }
         }
         return binarioVolteado
     }
@@ -216,8 +221,6 @@ class Genetico {
         Log.d("Tag",maximos)
 
         for(w in 1 until iteracion) {
-
-
             var cubeta = ArrayList<Int>()
             var numerosVect = ArrayList<Int>()
             var totalVectDif = 0
@@ -291,7 +294,7 @@ class Genetico {
                     for (j in 0 until vector[ruletaVector].size) {
 
                         if (j == exponenteCaeBit) {
-                            var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j])
+                            var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j], j)
                             var exponenteBinarioMod = 0.0
                             //Log.d("Tag", exponenteBinario)
                             for (l in 0 until exponenteBinario.length) { ///tratar de no usar otro string y obtener el valor decimal en este for
