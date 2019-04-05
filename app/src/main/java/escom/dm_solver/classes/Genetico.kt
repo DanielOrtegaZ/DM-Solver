@@ -26,7 +26,7 @@ class Genetico {
     var valoresMax = ArrayList <Double>()
 
 
-    fun convertBinaryToDecimal(num: Long): Int {
+    /*fun convertBinaryToDecimal(num: Long): Int {
         var num = num
         var decimalNumber = 0
         var i = 0
@@ -316,6 +316,5 @@ class Genetico {
             }
         }
 
-    }
-
+    }*/
 }
