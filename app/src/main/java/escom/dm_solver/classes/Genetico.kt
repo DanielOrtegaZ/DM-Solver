@@ -26,7 +26,7 @@ class Genetico {
     var valoresMax = ArrayList <Double>()
 
 
-    /*fun convertBinaryToDecimal(num: Long): Int {
+    fun convertBinaryToDecimal(num: Long): Int {
         var num = num
         var decimalNumber = 0
         var i = 0
@@ -84,11 +84,11 @@ class Genetico {
         Log.d("TAG", "Restricciones")
         Log.d("TAG", "Restriccion size: " +  restriccion.size)
         for(i in 0 until restriccion.size){
-             result = (restriccion.get(i).result.num).toDouble() / (restriccion.get(i).result.den).toDouble()
+             result = (restriccion.get(i)!!.result.num).toDouble() / (restriccion.get(i)!!.result.den).toDouble()
             Log.d("TAG", "Restriccion numero: " + i)
-            for(j in 0 until restriccion.get(i).coeficientes.size){
-                if(restriccion.get(i).coeficientes.get(j).num != 0 ) {
-                    coef = (restriccion.get(i).coeficientes.get(j).num).toDouble() / (restriccion.get(i).coeficientes.get(j).den).toDouble()
+            for(j in 0 until restriccion.get(i)!!.coeficientes.size){
+                if(restriccion.get(i)!!.coeficientes.get(j).num != 0 ) {
+                    coef = (restriccion.get(i)!!.coeficientes.get(j).num).toDouble() / (restriccion.get(i)!!.coeficientes.get(j).den).toDouble()
                     Log.d("TAG", "valor coeficiente: " +  coef)
                     if (result/coef > max[j]) {
                         max[j] = result / coef
@@ -101,7 +101,7 @@ class Genetico {
                     Log.d("TAG", "valor coeficiente: " +  coef)
                 }
             }
-            Log.d("TAG", "Simbolo: " + restriccion.get(i).operator)
+            Log.d("TAG", "Simbolo: " + restriccion.get(i)!!.operator)
             Log.d("TAG", "valor result: " +  result)
         }
         for (i in 0 until min.size){
@@ -168,21 +168,21 @@ class Genetico {
             var bandera = 1
             for(j in 0 until restriccion.size){
                 var acumulado = 0.0
-                for(k in 0 until restriccion.get(j).coeficientes.size){
-                    if(restriccion[j].coeficientes[k].num !=0 ) {
-                        acumulado += vector[i][k + numVar] * (restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
+                for(k in 0 until restriccion.get(j)!!.coeficientes.size){
+                    if(restriccion[j]!!.coeficientes[k].num !=0 ) {
+                        acumulado += vector[i][k + numVar] * (restriccion[j]!!.coeficientes[k].num.toDouble() / restriccion[j]!!.coeficientes[k].den.toDouble())
                     }
                 }
 
-                result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
+                result = restriccion[j]!!.result.num.toDouble()/restriccion[j]!!.result.den.toDouble()
                 Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
-                if(restriccion[j].operator.equals(MAYOR_IGUAL)){
+                if(restriccion[j]!!.operator.equals(MAYOR_IGUAL)){
                     if(acumulado < result){
                         bandera = 0
                         break
                     }
                 }
-                else if(restriccion[j].operator.equals(MENOR_IGUAL)){
+                else if(restriccion[j]!!.operator.equals(MENOR_IGUAL)){
                     if(acumulado > result){
                         bandera = 0
                         break
@@ -260,6 +260,7 @@ class Genetico {
                 }
             }
         }
+
         vector =  ArrayList<ArrayList<Double>>(emptyList())
         //Agrego mis vectores anteriores
         var nuevosVectores = "\n"
@@ -276,7 +277,7 @@ class Genetico {
                 nuevosVectores = ""
             }
             else{
-                var mjTotal = 0
+                /*var mjTotal = 0
                 for(j in 0 until mj.size){
                     mjTotal+=mj[j] - 1
                 }
@@ -312,9 +313,9 @@ class Genetico {
                     }
                 }
                 ruletaVector++
-                if(ruletaVector>=totalVectDif) ruletaVector = 0
+                if(ruletaVector>=totalVectDif) ruletaVector = 0 */
             }
         }
 
-    }*/
+    }
 }
