@@ -132,7 +132,7 @@ class Genetico {
             vector.add(nuevalista)
           //  Log.d("TAG", "Vector " + i)
             for(j in 0 until numVar){
-                var exponente = ((2.0).pow(mj.get(j)-1)).toInt()
+                var exponente = ((2.0).pow(mj.get(j))).toInt()
                 var binarioDecimal = (0 until exponente).random().toDouble()
 
                 vector[i].add(binarioDecimal)
@@ -291,12 +291,12 @@ class Genetico {
                     var exponenteCaeBit = mj.size - 1
                     var indiceBit = 0
                     for (j in 0 until mj.size) {
-                        bitsAcumulados += mj[j] - 1
+                        bitsAcumulados += mj[j] //le borré un uno
                         if (bitsAcumulados >= numBit) {
                             exponenteCaeBit = j
                             break;
                         }
-                        indiceBit += mj[j] - 1
+                        indiceBit += mj[j]
                     }
                     indiceBit = numBit - indiceBit //tengo que cambiar mi exponente en el que cae el bit a binario y cambiarle en la pos ndicebit
                     for (j in 0 until vector[ruletaVector].size) {
