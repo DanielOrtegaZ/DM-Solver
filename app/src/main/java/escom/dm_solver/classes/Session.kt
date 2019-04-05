@@ -15,8 +15,10 @@ class Session private constructor(){
     var funcionZ = FuncionZ()
     var maximizar = true
     var settings = Settings()
-}
 
-class Settings {
-    var geneticos  
+    class Settings {
+        var bitPrecision = 1
+        var numIteraciones = 3
+        var poblacionLength = 5
+    }
 }
