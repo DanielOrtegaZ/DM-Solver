@@ -11,7 +11,12 @@ class Session private constructor(){
         val instance : Session by lazy { Holder.INSTANCE }
     }
 
-    var restrictions = ArrayList<Restriction>()
+    var restrictions = ArrayList<Restriction?>()
     var funcionZ = FuncionZ()
     var maximizar = true
+    var settings = Settings()
+}
+
+class Settings {
+    var geneticos  
 }

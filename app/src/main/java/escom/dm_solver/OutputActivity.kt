@@ -11,6 +11,10 @@ import kotlinx.android.synthetic.main.activity_output.*
 
 class OutputActivity : AppCompatActivity() {
 
+    val tableParams = TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT)
+    val rowParams = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT)
+    val linearParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+
     var x = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +26,8 @@ class OutputActivity : AppCompatActivity() {
 
     fun createTable(){
 
-        val tableParams = TableLayout.LayoutParams(TableLayout.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT)
-        val rowParams = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT)
-
         val table = TableLayout(this)
-        table.layoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
+        table.layoutParams = linearParams
 
         for(i in 0..5) {
 
@@ -39,7 +40,6 @@ class OutputActivity : AppCompatActivity() {
                     text.layoutParams = rowParams
                     row.addView(text)
                 }
-
 
             table.addView(row)
         }

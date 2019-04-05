@@ -82,6 +82,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
     fun removeRestriction(id : Int, f : Fragment){
         val t = supportFragmentManager.beginTransaction()
+        Session.instance.restrictions.set(f.id,null)
         t.remove(f)
         t.commit()
     }
