@@ -7,7 +7,7 @@ import kotlin.math.*
 
 class Genetico {
 
-    var restriccion = Session.instance.restrictions
+    var restriccion = ArrayList<Restriction>()
     var funcion = Session.instance.funcionZ
     var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
     var exp = 2.0 // Exponente del 10
@@ -25,8 +25,15 @@ class Genetico {
     var valoresMin = ArrayList <Double>()
     var valoresMax = ArrayList <Double>()
 
+    init {
+        val res = Session.instance.restrictions
+        res.forEach { r ->
+            if( r != null )
+                restriccion.add(r)
+        }
+    }
 
-    /*fun convertBinaryToDecimal(num: Long): Int {
+    fun convertBinaryToDecimal(num: Long): Int {
         var num = num
         var decimalNumber = 0
         var i = 0
@@ -316,5 +323,5 @@ class Genetico {
             }
         }
 
-    }*/
+    }
 }
