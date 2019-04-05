@@ -53,8 +53,6 @@ class Genetico {
         var binaryNumber: Double = 0.0
         var remainder: Int
         var i = 1
-        var step = 1
-        var binario:String = ""
         while (n != 0.0) {
             remainder = (n % 2).toInt()
             n /= 2
@@ -91,11 +89,11 @@ class Genetico {
         Log.d("TAG", "Restricciones")
         Log.d("TAG", "Restriccion size: " +  restriccion.size)
         for(i in 0 until restriccion.size){
-             result = (restriccion.get(i)!!.result.num).toDouble() / (restriccion.get(i)!!.result.den).toDouble()
+             result = (restriccion.get(i).result.num).toDouble() / (restriccion.get(i).result.den).toDouble()
             Log.d("TAG", "Restriccion numero: " + i)
-            for(j in 0 until restriccion.get(i)!!.coeficientes.size){
-                if(restriccion.get(i)!!.coeficientes.get(j).num != 0 ) {
-                    coef = (restriccion.get(i)!!.coeficientes.get(j).num).toDouble() / (restriccion.get(i)!!.coeficientes.get(j).den).toDouble()
+            for(j in 0 until restriccion.get(i).coeficientes.size){
+                if(restriccion.get(i).coeficientes.get(j).num != 0 ) {
+                    coef = (restriccion.get(i).coeficientes.get(j).num).toDouble() / (restriccion.get(i).coeficientes.get(j).den).toDouble()
                     Log.d("TAG", "valor coeficiente: " +  coef)
                     if (result/coef > max[j]) {
                         max[j] = result / coef
@@ -108,7 +106,7 @@ class Genetico {
                     Log.d("TAG", "valor coeficiente: " +  coef)
                 }
             }
-            Log.d("TAG", "Simbolo: " + restriccion.get(i)!!.operator)
+            Log.d("TAG", "Simbolo: " + restriccion.get(i).operator)
             Log.d("TAG", "valor result: " +  result)
         }
         for (i in 0 until min.size){
@@ -175,21 +173,21 @@ class Genetico {
             var bandera = 1
             for(j in 0 until restriccion.size){
                 var acumulado = 0.0
-                for(k in 0 until restriccion.get(j)!!.coeficientes.size){
-                    if(restriccion[j]!!.coeficientes[k].num !=0 ) {
-                        acumulado += vector[i][k + numVar] * (restriccion[j]!!.coeficientes[k].num.toDouble() / restriccion[j]!!.coeficientes[k].den.toDouble())
+                for(k in 0 until restriccion.get(j).coeficientes.size){
+                    if(restriccion[j].coeficientes[k].num !=0 ) {
+                        acumulado += vector[i][k + numVar] * (restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
                     }
                 }
 
-                result = restriccion[j]!!.result.num.toDouble()/restriccion[j]!!.result.den.toDouble()
+                result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
                 Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
-                if(restriccion[j]!!.operator.equals(MAYOR_IGUAL)){
+                if(restriccion[j].operator.equals(MAYOR_IGUAL)){
                     if(acumulado < result){
                         bandera = 0
                         break
                     }
                 }
-                else if(restriccion[j]!!.operator.equals(MENOR_IGUAL)){
+                else if(restriccion[j].operator.equals(MENOR_IGUAL)){
                     if(acumulado > result){
                         bandera = 0
                         break
@@ -270,6 +268,7 @@ class Genetico {
 
         vector =  ArrayList<ArrayList<Double>>(emptyList())
         //Agrego mis vectores anteriores
+
         var nuevosVectores = "\n"
         var ruletaVector = 0
         for(i in 0 until numVect ) {
@@ -280,11 +279,11 @@ class Genetico {
                     vector[i].add(vectorCopia[i][j])
                     nuevosVectores += vector[i][j].toString() + " "
                 }
-                Log.d("Tag", nuevosVectores)
-                nuevosVectores = ""
+               // Log.d("Tag", nuevosVectores)
+               // nuevosVectores = ""
             }
             else{
-                /*var mjTotal = 0
+                var mjTotal = 0
                 for(j in 0 until mj.size){
                     mjTotal+=mj[j] - 1
                 }
@@ -301,27 +300,52 @@ class Genetico {
                     indiceBit += mj[j] - 1
                 }
                 indiceBit = numBit - indiceBit //tengo que cambiar mi exponente en el que cae el bit a binario y cambiarle en la pos ndicebit
+                var progreso = "\n"
                 for(j in 0 until vector[ruletaVector].size){
 
                     if(j == exponenteCaeBit){
                         var exponenteBinario = convertDecimalToBinary(vector[ruletaVector][j]).toString()
-                        var exponenteBinarioMod : String = ""
+                        var exponenteBinarioMod = 0.0
+                        Log.d("Tag", exponenteBinario)
                         for(l in 0 until exponenteBinario.length){ ///tratar de no usar otro string y obtener el valor decimal en este for
                             if(l == indiceBit){
-                                if(exponenteBinario.get(indiceBit)=='0')  exponenteBinarioMod += "1"
-                                else exponenteBinarioMod += "0"
+                                if(exponenteBinario.get(l)=='0') {
+                                    exponenteBinarioMod+= (2.0).pow(l)
+                                }
+
                             }
-                            else exponenteBinarioMod += exponenteBinario.get(l)
+                            else {
+                                if(exponenteBinario.get(exponenteBinario.length-l-1)=='1')
+                                {
+                                    exponenteBinarioMod+= (2.0).pow(l)
+                                }
+
+                            }
                         }
+                        vector[i].add(exponenteBinarioMod)
+                        //vector[i].add(100.0)
 
                     }
                     else{
                         vector[i].add(vector[ruletaVector][j])
                     }
+
                 }
+                Log.d("Tag",progreso)
+                progreso = ""
+
                 ruletaVector++
-                if(ruletaVector>=totalVectDif) ruletaVector = 0 */
+                if(ruletaVector>=totalVectDif) ruletaVector = 0
+
             }
+        }
+        var impresion = "\n"
+        for(i in 0 until vector.size){
+            for(j in 0 until vector[i].size){
+                impresion += vector[i][j].toString() + " "
+            }
+            Log.d("Tag", impresion)
+            impresion = ""
         }
 
     }

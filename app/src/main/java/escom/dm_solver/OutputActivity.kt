@@ -29,8 +29,8 @@ class OutputActivity : AppCompatActivity() {
     }
 
     fun geneticos(){
-        //var algGen = Genetico()
-        //algGen.calcular()
+        var algGen = Genetico()
+        algGen.calcular()
 
         var header = arrayListOf<String>("Vi","Vx","Vy","x","y","Z","Z%","Ac","Rnd","Vi")
 
