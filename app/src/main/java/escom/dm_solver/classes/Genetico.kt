@@ -33,33 +33,19 @@ class Genetico {
         }
     }
 
-    fun convertBinaryToDecimal(num: Long): Int {
-        var num = num
-        var decimalNumber = 0
-        var i = 0
-        var remainder: Long
 
-        while (num.toInt() != 0) {
-            remainder = num % 10
-            num /= 10
-            decimalNumber += (remainder * Math.pow(2.0, i.toDouble())).toInt()
-            ++i
-        }
-        return decimalNumber
-    }
-
-    fun convertDecimalToBinary(n: Double): Double {
-        var n = n
+    fun convertirDecimalABinario(n: Double): String {
+        var n = n.toInt()
         var binaryNumber: Double = 0.0
-        var remainder: Int
+        var modulo: Int
         var i = 1
-        while (n != 0.0) {
-            remainder = (n % 2).toInt()
+        var binarioVolteado :String = ""
+        while (n != 0) {
+            modulo = (n % 2).toInt()
+            binarioVolteado+=modulo
             n /= 2
-            binaryNumber += (remainder * i).toDouble()
-            i *= 10
         }
-        return binaryNumber
+        return binarioVolteado
     }
 
     fun calcular(){
@@ -300,22 +286,21 @@ class Genetico {
                     indiceBit += mj[j] - 1
                 }
                 indiceBit = numBit - indiceBit //tengo que cambiar mi exponente en el que cae el bit a binario y cambiarle en la pos ndicebit
-                var progreso = "\n"
                 for(j in 0 until vector[ruletaVector].size){
 
                     if(j == exponenteCaeBit){
-                        var exponenteBinario = convertDecimalToBinary(vector[ruletaVector][j]).toString()
+                        var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j])
                         var exponenteBinarioMod = 0.0
                         Log.d("Tag", exponenteBinario)
                         for(l in 0 until exponenteBinario.length){ ///tratar de no usar otro string y obtener el valor decimal en este for
-                            if(l == indiceBit){
+                            if(l == exponenteBinario.length - indiceBit){
                                 if(exponenteBinario.get(l)=='0') {
                                     exponenteBinarioMod+= (2.0).pow(l)
                                 }
 
                             }
                             else {
-                                if(exponenteBinario.get(exponenteBinario.length-l-1)=='1')
+                                if(exponenteBinario.get(l)=='1')
                                 {
                                     exponenteBinarioMod+= (2.0).pow(l)
                                 }
@@ -331,8 +316,6 @@ class Genetico {
                     }
 
                 }
-                Log.d("Tag",progreso)
-                progreso = ""
 
                 ruletaVector++
                 if(ruletaVector>=totalVectDif) ruletaVector = 0
