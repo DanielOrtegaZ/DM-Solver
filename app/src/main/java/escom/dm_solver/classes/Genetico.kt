@@ -12,7 +12,7 @@ class Genetico {
     var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
     var exp = 2.0 // Exponente del 10
     var numVect = 5 // Numero de vectores que se tienen que hacer
-    var iteracion = 1 //Numero de iteraciones que se tienen que hacer
+    var iteracion = 4 //Numero de iteraciones que se tienen que hacer
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
     var mj = ArrayList<Int>()
@@ -117,13 +117,13 @@ class Genetico {
             valorZ = 0.0
             var nuevalista = ArrayList<Double>()
             vector.add(nuevalista)
-            Log.d("TAG", "Vector " + i)
+          //  Log.d("TAG", "Vector " + i)
             for(j in 0 until numVar){
                 var exponente = ((2.0).pow(mj.get(j)-1)).toInt()
                 var binarioDecimal = (0 until exponente).random().toDouble()
 
                 vector[i].add(binarioDecimal)
-                Log.d("TAG", "Posicion " + j + ": " + vector[i][j])
+             //   Log.d("TAG", "Posicion " + j + ": " + vector[i][j])
             }
 
             for(j in 0 until numVar){
@@ -166,7 +166,7 @@ class Genetico {
                 }
 
                 result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
-                Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
+               // Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
                 if(restriccion[j].operator.equals(MAYOR_IGUAL)){
                     if(acumulado < result){
                         bandera = 0
@@ -257,6 +257,8 @@ class Genetico {
 
         var nuevosVectores = "\n"
         var ruletaVector = 0
+        valorTotalZ = 0.0
+        porcentajeAcum = 0.0
         for(i in 0 until numVect ) {
             var nuevalista = ArrayList<Double>()
             vector.add(nuevalista)
@@ -265,8 +267,6 @@ class Genetico {
                     vector[i].add(vectorCopia[i][j])
                     nuevosVectores += vector[i][j].toString() + " "
                 }
-               // Log.d("Tag", nuevosVectores)
-               // nuevosVectores = ""
             }
             else{
                 var mjTotal = 0
@@ -291,7 +291,7 @@ class Genetico {
                     if(j == exponenteCaeBit){
                         var exponenteBinario = convertirDecimalABinario(vector[ruletaVector][j])
                         var exponenteBinarioMod = 0.0
-                        Log.d("Tag", exponenteBinario)
+                        //Log.d("Tag", exponenteBinario)
                         for(l in 0 until exponenteBinario.length){ ///tratar de no usar otro string y obtener el valor decimal en este for
                             if(l == exponenteBinario.length - indiceBit){
                                 if(exponenteBinario.get(l)=='0') {
@@ -308,8 +308,6 @@ class Genetico {
                             }
                         }
                         vector[i].add(exponenteBinarioMod)
-                        //vector[i].add(100.0)
-
                     }
                     else{
                         vector[i].add(vector[ruletaVector][j])
@@ -321,7 +319,80 @@ class Genetico {
                 if(ruletaVector>=totalVectDif) ruletaVector = 0
 
             }
+
+            //EN ESTA PARTE SE CONVIERTEN DE NUESTRO VALOR BINARIO AL DECIMAL Y SE AGREGAN AL VECTOR, TAMBIÉN SE OBTIENE Z
+            valorZ = 0.0
+            //  Log.d("TAG", "Vector " + i)
+
+            for(j in 0 until numVar){
+                vector[i][j+numVar] = min[j] + vector[i][j] * ( (max[j]-min[j]) / ((2.0).pow(mj[j]) -1) )
+            }
+
+            for(j in 0 until funcion.coeficientes.size){
+                coef = (funcion.coeficientes.get(j).num).toDouble() / (funcion.coeficientes.get(j).den).toDouble()
+                valorZ += coef * vector[i][j+numVar]
+            }
+            vector[i][numVar*2] = valorZ
+            valorTotalZ += valorZ
         }
+        for(i in 0 until numVect){
+            porcentaje = vector[i][numVar*2] / valorTotalZ
+            porcentajeAcum += porcentaje
+            vector[i][numVar*2 + 1] = porcentaje
+            if(i == numVect -1) vector[i][numVar*2 + 2] = 1.0000000000000
+            else vector[i][numVar*2 + 2] = porcentajeAcum
+            vector[i][numVar*2 + 3] = ((1..99).random()).toDouble() /100
+        }
+
+        for(i in 0 until numVect){
+            for(j in 0 until numVect){
+                if(vector[i][numVar*2+3] <= vector[j][numVar*2+2]){
+                    vector[i].add(j.toDouble())
+                    break
+                }
+            }
+            var bandera = 1
+            for(j in 0 until restriccion.size){
+                var acumulado = 0.0
+                for(k in 0 until restriccion.get(j).coeficientes.size){
+                    if(restriccion[j].coeficientes[k].num !=0 ) {
+                        acumulado += vector[i][k + numVar] * (restriccion[j].coeficientes[k].num.toDouble() / restriccion[j].coeficientes[k].den.toDouble())
+                    }
+                }
+
+                result = restriccion[j].result.num.toDouble()/restriccion[j].result.den.toDouble()
+                // Log.d("Tag", "se va a comparar " + acumulado + " contra " + result)
+                if(restriccion[j].operator.equals(MAYOR_IGUAL)){
+                    if(acumulado < result){
+                        bandera = 0
+                        break
+                    }
+                }
+                else if(restriccion[j].operator.equals(MENOR_IGUAL)){
+                    if(acumulado > result){
+                        bandera = 0
+                        break
+                    }
+                }
+            }
+            if(bandera == 1){
+                vector[i][numVar*2+5] = 1.0
+                if(valoresMin[numVar] > vector[i][numVar*2]) {
+                    for(j in 0 until numVar+1){
+                        valoresMin[j] = vector[i][numVar+j]
+                    }
+                }
+                if(valoresMax[numVar] < vector[i][numVar*2]){
+                    for(j in 0 until numVar+1){
+                        valoresMax[j] = vector[i][numVar+j]
+                    }
+                }
+            }else{
+                vector[i][numVar*2+5] = 0.0
+            }
+
+        }
+
         var impresion = "\n"
         for(i in 0 until vector.size){
             for(j in 0 until vector[i].size){
@@ -330,6 +401,16 @@ class Genetico {
             Log.d("Tag", impresion)
             impresion = ""
         }
+
+        maximos = "\n"
+        minimos = "\n"
+        for(i in 0 until numVar + 1){
+            maximos += valoresMax[i].toString() + " "
+            minimos += valoresMin[i].toString() + " "
+
+        }
+        Log.d("Tag",minimos)
+        Log.d("Tag",maximos)
 
     }
 }
