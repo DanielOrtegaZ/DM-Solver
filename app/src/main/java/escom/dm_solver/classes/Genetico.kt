@@ -347,7 +347,7 @@ class Genetico {
         for(i in 0 until numVect){
             for(j in 0 until numVect){
                 if(vector[i][numVar*2+3] <= vector[j][numVar*2+2]){
-                    vector[i].add(j.toDouble())
+                    vector[i][numVar*2+4] = j.toDouble()
                     break
                 }
             }
