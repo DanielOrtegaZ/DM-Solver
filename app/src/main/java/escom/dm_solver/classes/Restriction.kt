@@ -52,7 +52,7 @@ class Restriction {
 
                 var op = """(<=)|(>=)|=""".toRegex().find(inputx)?.value
                 r.operator = if(op.equals("<=")) MENOR_IGUAL
-                        else if(op.equals("<=")) MAYOR_IGUAL
+                        else if(op.equals(">=")) MAYOR_IGUAL
                         else IGUAL
 
                 inputx = inputx.substring(op.toString().length)

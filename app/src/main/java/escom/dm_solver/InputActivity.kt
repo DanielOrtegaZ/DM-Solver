@@ -32,7 +32,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         backBtn.setOnClickListener(this)
 
         if(savedInstanceState == null) {
-            addNewRestriccion("12x + 13y <= 14")
+            //addNewRestriccion("12x + 13y <= 14")
             declareZ("z = 12x + 13y")
         }
     }

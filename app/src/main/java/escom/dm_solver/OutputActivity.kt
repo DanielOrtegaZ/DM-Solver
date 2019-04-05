@@ -7,6 +7,7 @@ import android.widget.LinearLayout
 import android.widget.TableLayout
 import android.widget.TableRow
 import android.widget.TextView
+import escom.dm_solver.classes.Genetico
 import kotlinx.android.synthetic.main.activity_output.*
 
 class OutputActivity : AppCompatActivity() {
@@ -20,8 +21,14 @@ class OutputActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_output)
-
+        geneticos()
         createTable()
+    }
+
+    fun geneticos(){
+        var algGen = Genetico()
+        algGen.calcular()
+
     }
 
     fun createTable(){
