@@ -1,4 +1,5 @@
 package escom.dm_solver.classes
+import android.support.v4.content.IntentCompat
 import android.util.Log
 import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
@@ -10,12 +11,11 @@ class Genetico {
     var funcion = Session.instance.funcionZ
     var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
     var exp = 2.0 // Exponente del 10
-    var numVect = 20 // Numero de vectores que se tienen que hacer
+    var numVect = 5 // Numero de vectores que se tienen que hacer
     var iteracion = 1 //Numero de iteraciones que se tienen que hacer
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
     var mj = ArrayList<Int>()
-    var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
     var result = 0.0
     var coef = 0.0
     var valorZ = 0.0
@@ -25,8 +25,41 @@ class Genetico {
     var valoresMin = ArrayList <Double>()
     var valoresMax = ArrayList <Double>()
 
+
+    fun convertBinaryToDecimal(num: Long): Int {
+        var num = num
+        var decimalNumber = 0
+        var i = 0
+        var remainder: Long
+
+        while (num.toInt() != 0) {
+            remainder = num % 10
+            num /= 10
+            decimalNumber += (remainder * Math.pow(2.0, i.toDouble())).toInt()
+            ++i
+        }
+        return decimalNumber
+    }
+
+    fun convertDecimalToBinary(n: Double): Double {
+        var n = n
+        var binaryNumber: Double = 0.0
+        var remainder: Int
+        var i = 1
+        var step = 1
+        var binario:String = ""
+        while (n != 0.0) {
+            remainder = (n % 2).toInt()
+            n /= 2
+            binaryNumber += (remainder * i).toDouble()
+            i *= 10
+        }
+        return binaryNumber
+    }
+
     fun calcular(){
 
+        var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
 
         ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
 
@@ -61,8 +94,11 @@ class Genetico {
                         max[j] = result / coef
                     }
                     if (result/coef < min[j]) {
-                        min[j] = coef / coef
+                        min[j] = result / coef
                     }
+                }
+                else{
+                    Log.d("TAG", "valor coeficiente: " +  coef)
                 }
             }
             Log.d("TAG", "Simbolo: " + restriccion.get(i).operator)
@@ -111,7 +147,7 @@ class Genetico {
             valorTotalZ += valorZ
         }
 
-        //mucho ojo con los valores acumulables
+        //mucho ojo con los valores acumulables y puto el que lo lea
 
         for(i in 0 until numVect){
             porcentaje = vector[i][numVar*2] / valorTotalZ
@@ -187,6 +223,99 @@ class Genetico {
         }
         Log.d("Tag",minimos)
         Log.d("Tag",maximos)
+
+        var cubeta = ArrayList<Int>()
+        var numerosVect = ArrayList<Int>()
+        var totalVectDif = 0
+        var aux = 0
+        for(i in 0 until numVect){
+            cubeta.add(0)
+            numerosVect.add(i)
+        }
+        for(i in 0 until numVect){
+            if(cubeta[vector[i][numVar*2+4].toInt()] == 0){
+                totalVectDif++
+            }
+            cubeta[vector[i][numVar*2+4].toInt()]++
+        }
+        for(i in 0 until numVect){
+            for(j in i until numVect){
+                if(cubeta[i] < cubeta[j]){
+                    aux = cubeta[i]
+                    cubeta[i] = cubeta[j]
+                    cubeta[j] = aux
+                    aux = numerosVect[i]
+                    numerosVect[i] = numerosVect[j]
+                    numerosVect[j] = aux
+                }
+            }
+        }
+        var vectorCopia = ArrayList<ArrayList<Double>>(emptyList())
+        for(i in 0 until numVect ){
+            var nuevalista = ArrayList<Double>()
+            vectorCopia.add(nuevalista)
+            if(i < totalVectDif) {
+                for (j in 0 until vector[i].size) {
+                    vectorCopia[i].add(vector[numerosVect[i]][j])
+                }
+            }
+        }
+        vector =  ArrayList<ArrayList<Double>>(emptyList())
+        //Agrego mis vectores anteriores
+        var nuevosVectores = "\n"
+        var ruletaVector = 0
+        for(i in 0 until numVect ) {
+            var nuevalista = ArrayList<Double>()
+            vector.add(nuevalista)
+            if(i < totalVectDif){
+                for (j in 0 until vectorCopia[i].size) {
+                    vector[i].add(vectorCopia[i][j])
+                    nuevosVectores += vector[i][j].toString() + " "
+                }
+                Log.d("Tag", nuevosVectores)
+                nuevosVectores = ""
+            }
+            else{
+                var mjTotal = 0
+                for(j in 0 until mj.size){
+                    mjTotal+=mj[j] - 1
+                }
+                var numBit = (0 until (mjTotal)).random()
+                var bitsAcumulados = 0
+                var exponenteCaeBit = mj.size -1
+                var indiceBit = 0
+                for(j in 0 until mj.size){
+                    bitsAcumulados += mj[j] -1
+                    if(bitsAcumulados>=numBit){
+                        exponenteCaeBit = j
+                        break;
+                    }
+                    indiceBit += mj[j] - 1
+                }
+                indiceBit = numBit - indiceBit //tengo que cambiar mi exponente en el que cae el bit a binario y cambiarle en la pos ndicebit
+                for(j in 0 until vector[ruletaVector].size){
+
+                    if(j == exponenteCaeBit){
+                        var exponenteBinario = convertDecimalToBinary(vector[ruletaVector][j]).toString()
+                        var exponenteBinarioMod : String = ""
+                        for(l in 0 until exponenteBinario.length){ ///tratar de no usar otro string y obtener el valor decimal en este for
+                            if(l == indiceBit){
+                                if(exponenteBinario.get(indiceBit)=='0')  exponenteBinarioMod += "1"
+                                else exponenteBinarioMod += "0"
+                            }
+                            else exponenteBinarioMod += exponenteBinario.get(l)
+                        }
+
+                    }
+                    else{
+                        vector[i].add(vector[ruletaVector][j])
+                    }
+                }
+                ruletaVector++
+                if(ruletaVector>=totalVectDif) ruletaVector = 0
+            }
+        }
+
     }
 
 }
