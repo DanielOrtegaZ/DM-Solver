@@ -45,10 +45,12 @@ class Fraction constructor(numerador:Int,denominador:Int){
             a.num = a.num*b.den
             a.den = a.den*b.num
             return simplifica(a)
-
         }
     }
 
+    fun toDouble():Double{
+        return num.toDouble() / den.toDouble()
+    }
 
     override fun toString():String{
         val aux = if(num>0) "+ " else "- "

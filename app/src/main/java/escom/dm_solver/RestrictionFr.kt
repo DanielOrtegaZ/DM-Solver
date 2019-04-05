@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.fragment_restriction.view.*
 
 class RestrictionFr : Fragment(), View.OnClickListener {
 
-    private var rid: Int = -1
+    var rid: Int = -1
     private var text: String? = null
     //private var listener: OnFragmentInteractionListener? = null
 

@@ -32,7 +32,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         backBtn.setOnClickListener(this)
 
         if(savedInstanceState == null) {
-            //addNewRestriccion("12x + 13y <= 14")
+            addNewRestriccion("12x + 13y <= 14")
             declareZ("z = 12x + 13y")
         }
     }
@@ -71,18 +71,20 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
             Session.instance.restrictions.add(restriction)
             val t = supportFragmentManager.beginTransaction()
             val id = R.id.container
+            Log.d("DM","Removing Restriction $x")
             t.add(id, RestrictionFr.newInstance(x++, restriction.toString()))
             t.commit()
         }
         else {
             Toast.makeText(this, "Invalud Input Z", Toast.LENGTH_SHORT).show()
-            Log.d("DM",input)
         }
     }
 
     fun removeRestriction(id : Int, f : Fragment){
         val t = supportFragmentManager.beginTransaction()
-        Session.instance.restrictions.set(f.id,null)
+        f as RestrictionFr
+        Log.d("DM","Removing Restriction ${f.rid}")
+        Session.instance.restrictions.set(f.rid,null)
         t.remove(f)
         t.commit()
     }

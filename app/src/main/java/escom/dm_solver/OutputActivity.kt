@@ -16,41 +16,49 @@ class OutputActivity : AppCompatActivity() {
     val rowParams = TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT,TableLayout.LayoutParams.WRAP_CONTENT)
     val linearParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT)
 
+    private lateinit var table : TableLayout
+    private lateinit var row: TableRow
+
     var x = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_output)
+        rowParams.setMargins(10,10,10,10)
         geneticos()
-        createTable()
     }
 
     fun geneticos(){
-        var algGen = Genetico()
-        algGen.calcular()
+        //var algGen = Genetico()
+        //algGen.calcular()
 
+        var header = arrayListOf<String>("Vi","Vx","Vy","x","y","Z","Z%","Ac","Rnd","Vi")
+
+        addTable()
+            addRow()
+                header.forEach { s -> addElement(s) }
+            commitRow()
+        commitTable()
     }
 
-    fun createTable(){
-
-        val table = TableLayout(this)
+    /* METHODS TO CREATE THE TABLE */
+    private fun addTable(){
+        table = TableLayout(this)
         table.layoutParams = linearParams
-
-        for(i in 0..5) {
-
-            var row = TableRow(this)
-            row.layoutParams = tableParams
-
-                for(j in 0..11) {
-                    var text = TextView(this)
-                    text.text = (i*j).toString()
-                    text.layoutParams = rowParams
-                    row.addView(text)
-                }
-
-            table.addView(row)
-        }
-
-        container.addView(table)
     }
+
+    private fun addElement(element:String){
+        var text = TextView(this)
+        text.text = element
+        text.layoutParams = rowParams
+        row.addView(text)
+    }
+
+    private fun addRow(){
+        row = TableRow(this)
+        row.layoutParams = tableParams
+    }
+
+    private fun commitRow(){  table.addView(row)  }
+    private fun commitTable(){  container.addView(table) }
 }
