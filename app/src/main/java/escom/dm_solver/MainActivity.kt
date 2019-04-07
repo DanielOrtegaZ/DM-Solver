@@ -10,6 +10,9 @@ import android.content.Intent
 import android.util.Log
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import escom.dm_solver.classes.Fraction
+import escom.dm_solver.classes.FuncionZ
+import escom.dm_solver.classes.Restriction
 import escom.dm_solver.classes.Session
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -29,21 +32,31 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
         val adapter = ArrayAdapter.createFromResource(this,R.array.methods,android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-
         spinner.adapter = adapter
         spinner.onItemSelectedListener = this
     }
 
     private fun loadSettings(){
-        val settings = Session.instance.settings
+        val session = Session.instance
+        val settings = session.settings
         val preferences = getSharedPreferences(PREFS_NAME,Context.MODE_PRIVATE)
 
         settings.bitPrecision = preferences.getInt("bit",0)
         settings.numIteraciones = preferences.getInt("iteraciones",3)
         settings.numMiembros = preferences.getInt("miembros",3)
 
-        Log.d("DM","Settings ${settings.bitPrecision}")
-        Log.d("DM","Settings ${settings.numIteraciones}")
+        session.funcionZ = FuncionZ()
+        session.funcionZ.coeficientes.add(Fraction(1,1))
+        session.funcionZ.coeficientes.add(Fraction(1,1))
+        session.funcionZ.variables.add("x")
+        session.funcionZ.variables.add("y")
+
+        var restriction = Restriction()
+        restriction.addTermino("2x")
+        restriction.addTermino("+4y")
+        restriction.operator = Restriction.MENOR_IGUAL
+        restriction.result = Fraction(125,1)
+        session.restrictions.add( restriction )
     }
 
     override fun onClick(v: View) {

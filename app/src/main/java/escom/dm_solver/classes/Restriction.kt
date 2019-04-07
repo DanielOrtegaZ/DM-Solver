@@ -14,17 +14,23 @@ class Restriction {
 
         val coef = s.substring(0..s.length-2)
         val variable = s.substring(s.length-1)
+        var j=0
+
+        for(varx in variables){
+            if( varx.compareTo(variable) > 0 ) {
+                break
+            }
+            j++
+        }
 
         if(coef.isBlank() || coef.equals("+"))
-            coeficientes.add(Fraction(1, 1))
-
+            coeficientes.add(j,Fraction(1, 1))
         else if (coef.equals("-"))
-            coeficientes.add(Fraction(-1,1))
-
+            coeficientes.add(j,Fraction(-1,1))
         else
-            coeficientes.add(Fraction(coef))
+            coeficientes.add(j,Fraction(coef))
 
-        variables.add(variable)
+        variables.add(j,variable)
     }
 
     companion object { // STATIC METHODS / VARIABLES
@@ -64,6 +70,16 @@ class Restriction {
             else
                 return null
         }
+    }
+
+    fun varExists(s: String):Boolean{
+        var existe = false
+
+        for( v in variables )
+            if( v.equals(s) ){
+                existe = true
+            }
+        return existe
     }
 
     override fun toString():String{

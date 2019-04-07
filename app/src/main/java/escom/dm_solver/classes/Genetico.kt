@@ -9,14 +9,16 @@ class Genetico {
 
     var restriccion = ArrayList<Restriction>()
     var funcion = Session.instance.funcionZ
-    var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
     var exp = Session.instance.settings.bitPrecision
     var numVect = Session.instance.settings.numMiembros
     var iteracion = Session.instance.settings.numIteraciones
+    var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
+
+    /* Rangos de las variables */
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
+
     var mj = ArrayList<Int>()
-    var result = 0.0
     var coef = 0.0
     var valorZ = 0.0
     var valorTotalZ = 0.0
@@ -55,66 +57,60 @@ class Genetico {
         return binarioVolteado
     }
 
-    fun calcular(){
+    fun debug(){
 
-        var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
-        ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
-        valorTotalZ = 0.0
-        porcentajeAcum = 0.0
+        Log.d("DM", "Valores de Z")
+        Log.d("DM","Valor coeficiente: " + funcion )
+
+        Log.d("DM", "Restricciones" )
+        restriccion.forEach {
+            Log.d("DM", "Restriccion: " + it.toString())
+        }
+    }
+
+    fun calculateRangeOfVariables(){
+        var result = 0.0
+        var aux = 0.0
+
         for(i in 0 until numVar){
             min.add(1000000000.0)
             max.add(-100000000.0)
         }
 
+        var j = 0;
+        restriccion.forEach { r ->
+            result = r.result.toDouble()
+            j = 0
+
+            r.coeficientes.forEach { c ->
+                if(c.num != 0){
+                    aux = result / c.toDouble()
+                    if( aux > max[j] )
+                        max[j] = aux
+                    if( aux < min[j] )
+                        min[j] = aux
+                }
+            }
+        }
+
+        for (i in 0 until max.size){
+            Log.d("DM", "${min[i]} <= ${funcion.variables[i]} <= ${max[i]}" )
+        }
+    }
+
+    fun calcular(){
+
+        var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
+        ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
+        var result = 0.0
+
+        valorTotalZ = 0.0
+        porcentajeAcum = 0.0
         for(i in 0 until numVar + 1){
             valoresMin.add(1000000000.0)
             valoresMax.add(-100000000.0)
         }
 
-        // Seing Coeficientes
-        Log.d("TAG", "Valores de Z")
-        funcion.coeficientes.forEach { c ->
-            Log.d("TAG","Valor coeficiente: " + c.toDouble() )
-        }
-
-        Log.d("TAG", "Restricciones" )
-        Log.d("TAG", "Restriccion size: " +  restriccion.size )
-        var i = 0;
-        restriccion.forEach { r ->
-            result = r.result.toDouble()
-            Log.d("TAG", "Restriccion numero: " + i++)
-        }
-
-        for(i in 0 until restriccion.size){
-             result = (restriccion.get(i).result.num).toDouble() / (restriccion.get(i).result.den).toDouble()
-            Log.d("TAG", "Restriccion numero: " + i)
-            for(j in 0 until restriccion.get(i).coeficientes.size){
-                if(restriccion.get(i).coeficientes.get(j).num != 0 ) {
-                    coef = (restriccion.get(i).coeficientes.get(j).num).toDouble() / (restriccion.get(i).coeficientes.get(j).den).toDouble()
-                    Log.d("TAG", "valor coeficiente: " +  coef)
-                    if (result/coef > max[j]) {
-                        max[j] = result / coef
-                    }
-                    if (result/coef < min[j]) {
-                        min[j] = result / coef
-                    }
-                }
-                else{
-                    Log.d("TAG", "valor coeficiente: " +  coef)
-                }
-            }
-            Log.d("TAG", "Simbolo: " + restriccion.get(i).operator)
-            Log.d("TAG", "valor result: " +  result)
-        }
-
-        /*
-        for (i in 0 until min.size){
-
-            Log.d("TAG", "Valor minimo en posicion " + i + " " + min[i].toString()+ " ")
-        }
-        for (i in 0 until max.size){
-            Log.d("TAG", "Valor maximo en posicion " + i + " " + max[i].toString()+ " ")
-        }
         for(i in 0 until numVar){
              var lognum = log((max[i]-min[i])*((10.0).pow(exp)),10.0).toDouble()
              var logden = log(2.0,10.0).toDouble()
@@ -430,6 +426,6 @@ class Genetico {
 
             Log.d("Tag", minimos)
             Log.d("Tag", maximos)
-        }*/
+        }
     }
 }

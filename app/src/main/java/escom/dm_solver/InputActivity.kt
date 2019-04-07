@@ -31,21 +31,29 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         maxMin.setOnClickListener(this)
         backBtn.setOnClickListener(this)
 
-        if(savedInstanceState == null) {
-            addNewRestriccion("12x + 13y <= 14")
-            declareZ("z = 12x + 13y")
-        }
+        if(savedInstanceState == null)
+            loadValues()
+    }
 
-        val max = Session.instance.maximizar
-        if(max != maxMin.isChecked)
+    private fun loadValues(){
+        x = 0
+        val session = Session.instance
+        if(session.maximizar != maxMin.isChecked)
             maxMin.performClick()
+
+        functionZ.text = session.funcionZ.toString()
+
+        val id = R.id.container
+        val t = supportFragmentManager.beginTransaction()
+
+        session.restrictions.forEach { r ->
+            if(r!=null)
+                t.add( id, RestrictionFr.newInstance(x++, r.toString()) )
+        }
+        t.commit()
     }
 
-    override fun onDialogNegativeClick(dialog: DialogFragment) {
-        //var inputFragment = dialog as NoticeDialogFragment
-        //Toast.makeText(this,"Hola ${inputFragment.input}",Toast.LENGTH_LONG).show()
-    }
-
+    override fun onDialogNegativeClick(dialog: DialogFragment) { }
     override fun onDialogPositiveClick(dialog: DialogFragment) {
         var inputFragment = dialog as NoticeDialogFragment
         var input = inputFragment.input
@@ -58,7 +66,7 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
     fun declareZ(input:String){
 
-        val z = FuncionZ.createZ(input.replace("\\s".toRegex(),""))
+        val z = FuncionZ.createZ( input.replace("\\s".toRegex(),"") )
         if(z != null){
             functionZ.text = z.toString()
             Session.instance.funcionZ = z
@@ -69,13 +77,12 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
 
     fun addNewRestriccion(input : String){
 
-        var restriction = Restriction.createRestriction(input.replace("\\s".toRegex(),""))
+        val restriction = Restriction.createRestriction(input.replace("\\s".toRegex(),""))
         if(restriction!=null) {
 
-            Session.instance.restrictions.add(restriction)
-            val t = supportFragmentManager.beginTransaction()
+            updateRestrictions(restriction)
             val id = R.id.container
-            Log.d("DM","Removing Restriction $x")
+            val t = supportFragmentManager.beginTransaction()
             t.add(id, RestrictionFr.newInstance(x++, restriction.toString()))
             t.commit()
         }
@@ -84,10 +91,38 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         }
     }
 
+    fun updateRestrictions(res:Restriction){
+
+        val session = Session.instance
+        val restrictions = session.restrictions
+        val numRestrictions = restrictions.count{ it!= null }
+
+        lateinit var res1: Restriction
+
+        if(numRestrictions>0){
+
+            for(res in restrictions){ // Obtenemos la primer restriccion
+                if(res!=null) { res1 = res; break }
+            }
+
+            res.variables.forEach { v ->
+                if(!res1.varExists(v)) {
+                    restrictions.forEach { r -> if(r!=null) r.addTermino( "0$v" ) }
+                }
+            }
+
+            res1.variables.forEach { v ->
+                if(!res.varExists(v))
+                    res.addTermino( "0$v" )
+            }
+        }
+        session.restrictions.add(res)
+    }
+
     fun removeRestriction(id : Int, f : Fragment){
         val t = supportFragmentManager.beginTransaction()
-        f as RestrictionFr
-        Session.instance.restrictions.set(f.rid,null)
+        val r = f as RestrictionFr
+        Session.instance.restrictions.set(r.rid,null)
         t.remove(f)
         t.commit()
     }
