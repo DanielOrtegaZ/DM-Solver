@@ -31,6 +31,7 @@ class OutputActivity : AppCompatActivity() {
     fun geneticos(){
         var g = Genetico()
         g.calculateVectorSizes()
+        g.createVectors()
         //algGen.calcular()
 
         var header = arrayListOf<String>("Vi","Vx","Vy","x","y","Z","Z%","Ac","Rnd","Vi")

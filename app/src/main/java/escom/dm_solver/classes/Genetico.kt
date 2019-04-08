@@ -12,9 +12,16 @@ class Genetico {
     /* Conjunto de Restricciones */
     private var restriccion = ArrayList<Restriction>()
 
+    /* Conjunto de Vectores */
+    private var vectores = ArrayList<Vector>()
+
     /* Tamaño y numero de los vectores */
     private var vectorSizes = ArrayList <Int>()
     private var numVect = 3
+
+    /* Valores de frontera de variables */
+    val maxValues = ArrayList<Double>()
+    val minValues = ArrayList<Double>()
 
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
@@ -98,9 +105,6 @@ class Genetico {
 
     fun calculateVectorSizes(){
 
-        val maxValues = ArrayList<Double>()
-        val minValues = ArrayList<Double>()
-
         variablesRangeValues(maxValues,minValues)
 
         for(i in 0 until funcion.variables.size) {
@@ -110,6 +114,14 @@ class Genetico {
         for(i in 0 until funcion.variables.size) {
             vectorSizes.add(vectorSize(maxValues[i], minValues[i]))
             Log.d("DM","mj(${funcion.variables[i]}) = ${vectorSizes[i]}")
+        }
+    }
+
+    fun createVectors(){
+        for(i in 0 until numVect) {
+            var vector = Vector("V$i",vectorSizes,minValues,maxValues)
+            vector.generate()
+            Log.d("DM","Vector $vector")
         }
     }
 
