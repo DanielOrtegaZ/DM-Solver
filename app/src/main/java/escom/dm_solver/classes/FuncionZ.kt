@@ -1,7 +1,5 @@
 package escom.dm_solver.classes
 
-import android.util.Log
-
 class FuncionZ {
 
     var coeficientes = ArrayList<Fraction>()
@@ -11,17 +9,20 @@ class FuncionZ {
 
         val coef = s.substring(0..s.length-2)
         val variable = s.substring(s.length-1)
+        var j=0
+
+        for(varx in variables){
+            if( varx.compareTo(variable) > 0 ) { break }
+            j++
+        }
 
         if(coef.isBlank() || coef.equals("+"))
-            coeficientes.add(Fraction(1, 1))
-
+            coeficientes.add(j,Fraction(1, 1))
         else if (coef.equals("-"))
-            coeficientes.add(Fraction(-1,1))
-
+            coeficientes.add(j,Fraction(-1,1))
         else
-            coeficientes.add(Fraction(coef))
-
-        variables.add(variable)
+            coeficientes.add(j,Fraction(coef))
+        variables.add(j,variable)
     }
 
     companion object { // STATIC METHODS / VARIABLES
@@ -48,12 +49,25 @@ class FuncionZ {
         }
     }
 
+    fun eval(values :ArrayList<Double>):Double{
+        var result = 0.0
+        for(i in 0 until coeficientes.size){
+            result += coeficientes[i].toDouble()*values[i]
+        }
+        return result
+    }
+
+    fun eval(values :ArrayList<Fraction>):Fraction{
+        // TODO: Implementar metodo para fracciones
+        return Fraction(1,1)
+    }
+
     override fun toString():String{
         var aux = ""
 
         if(coeficientes.size == variables.size)
-            for(i in 0..coeficientes.size-1)
-                aux += "${coeficientes.get(i)}${variables.get(i)} "
+            for(i in 0 until coeficientes.size)
+                aux += "${coeficientes[i]}${variables[i]} "
         else return ""
 
         if(aux.startsWith("+ "))
@@ -63,5 +77,4 @@ class FuncionZ {
 
         return "z = $aux"
     }
-
 }

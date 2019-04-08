@@ -16,6 +16,8 @@ class Vector constructor(tag:String,mj:ArrayList<Int>,minValues:ArrayList<Double
         for(i in 0 until maxValues.size) {
             aux = ( maxValues[i] - minValues[i] ) / ( (2.0).pow(mj[i])-1 )
             constantes.add(aux)
+            genotipos.add(0)
+            fenotipos.add(0.0)
         }
     }
 
@@ -23,15 +25,17 @@ class Vector constructor(tag:String,mj:ArrayList<Int>,minValues:ArrayList<Double
         var random = 0
         for(i in 0 until sizes.size ) {
             random = Random.nextInt( (2.0).pow(sizes[i]).toInt() )
-            genotipos.add( random )
-            fenotipos.add( min[i] + random*constantes[i] )
+            genotipos.set(i, random )
+            fenotipos.set(i, min[i] + random*constantes[i] )
         }
     }
 
+    /* Regresa el valor de la variable a,b,c,...,x,y */
     fun fenotipo(position:Int):Double{
         return fenotipos[position]
     }
 
+    /* Regresa el numero aleatorio */
     fun genotipo(position:Int):String {
         var m :String = genotipos[position].toString(2)
         while(m.length < sizes[position])
@@ -42,9 +46,8 @@ class Vector constructor(tag:String,mj:ArrayList<Int>,minValues:ArrayList<Double
     override fun toString(): String {
         var m = ""
         for(i in 0 until genotipos.size) {
-            //m += "|${genotipo(i)}"
-            m += "|$i"
+            m += "  ${genotipo(i)}"
         }
-        return "$tag = " + m.substring(1)
+        return m.substring(2)
     }
 }

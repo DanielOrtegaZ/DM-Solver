@@ -87,6 +87,26 @@ class Restriction {
         return ret
     }
 
+    /* Evalua si la funcion es cumplida o no */
+    fun eval(values :ArrayList<Double>):Boolean{
+        var ac = 0.0
+        for(i in 0 until coeficientes.size){
+            ac += coeficientes[i].toDouble()*values[i]
+        }
+
+        if(operator == MAYOR_IGUAL)
+            return ac >= result.toDouble()
+        else if(operator == MENOR_IGUAL)
+            return ac <= result.toDouble()
+        else
+            return ac == result.toDouble()
+    }
+
+    fun eval(values :ArrayList<Fraction>):Fraction{
+        // TODO: Implementar metodo para fracciones
+        return Fraction(1,1)
+    }
+
     override fun toString():String{
         var aux = ""
 

@@ -9,14 +9,15 @@ import kotlin.math.*
 
 class Genetico {
 
-    /* Conjunto de Restricciones */
+    /* Conjunto de Restricciones y Funcion Z */
     private var restriccion = ArrayList<Restriction>()
+    private var funcion : FuncionZ
 
     /* Conjunto de Vectores */
-    private var vectores = ArrayList<Vector>()
+    var vectores = ArrayList<Vector>()
 
     /* Tamaño y numero de los vectores */
-    private var vectorSizes = ArrayList <Int>()
+    private var mj = ArrayList<Int>()
     private var numVect = 3
 
     /* Valores de frontera de variables */
@@ -26,12 +27,10 @@ class Genetico {
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
 
-    var funcion : FuncionZ
     var exp = 0
     var iteracion = 3
     var numVar = 2
 
-    var mj = ArrayList<Int>()
     var coef = 0.0
     var valorZ = 0.0
     var valorTotalZ = 0.0
@@ -46,6 +45,7 @@ class Genetico {
         funcion   = session.funcionZ
         exp       = session.settings.bitPrecision
         numVect   = session.settings.numMiembros
+        numVar    = session.funcionZ.variables.size
         iteracion = session.settings.numIteraciones
 
         session.restrictions.forEach { r ->
@@ -54,16 +54,14 @@ class Genetico {
         }
     }
 
-    // TODO: Pasar esta operación a la clase Vector
+    // TODO: Clean functions belonging to Classes. LIKE THIS ONE
     fun convertirDecimalABinario(n: Double, coef:Int): String {
 
         var n = n.toInt()
-        var binaryNumber: Double = 0.0
         var modulo: Int
-        var i = 1
-        var binarioVolteado :String = ""
+        var binarioVolteado = ""
         while (n != 0) {
-            modulo = (n % 2).toInt()
+            modulo = (n % 2)
             binarioVolteado+=modulo
             n /= 2
         }
@@ -106,26 +104,41 @@ class Genetico {
     fun calculateVectorSizes(){
 
         variablesRangeValues(maxValues,minValues)
-
         for(i in 0 until funcion.variables.size) {
             Log.d("DM","${minValues[i]} <= ${funcion.variables[i]} <= ${maxValues[i]}")
         }
 
         for(i in 0 until funcion.variables.size) {
-            vectorSizes.add(vectorSize(maxValues[i], minValues[i]))
-            Log.d("DM","mj(${funcion.variables[i]}) = ${vectorSizes[i]}")
+            mj.add( vectorSize(maxValues[i], minValues[i]) )
+            Log.d("DM","mj(${funcion.variables[i]}) = ${mj[i]}")
         }
     }
 
     fun createVectors(){
         for(i in 0 until numVect) {
-            var vector = Vector("V$i",vectorSizes,minValues,maxValues)
-            vector.generate()
-            Log.d("DM","Vector $vector")
+            var vector = Vector("V$i",mj,minValues,maxValues)
+
+               do { vector.generate() }
+            while ( !validate(vector) )
+
+            Log.d("DM","${vector.tag} = $vector")
+            vectores.add(vector)
         }
     }
 
+    fun validate(vector: Vector):Boolean{
+        var pass = true
+        for (restriction in restriccion)
+            if (!restriction.eval(vector.fenotipos)){
+                pass = false; break
+            }
+        return pass
+    }
+
     fun calcular(){
+
+        min = minValues
+        max = maxValues
 
         var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
         ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
@@ -136,17 +149,6 @@ class Genetico {
         for(i in 0 until numVar + 1){
             valoresMin.add(1000000000.0)
             valoresMax.add(-100000000.0)
-        }
-
-        for(i in 0 until numVar){
-             var lognum = log((max[i]-min[i])*((10.0).pow(exp)),10.0).toDouble()
-             var logden = log(2.0,10.0).toDouble()
-            Log.d("TAG", "Valor de mj en " + i + " " + lognum + "/" + logden + " mas 1")
-        }
-
-        for(i in 0 until numVar){
-            mj.add ( ( (log((max[i]-min[i])*((10.0).pow(exp)),10.0).toDouble() ) / (log(2.0,10.0).toDouble()) ).toInt() + 1)
-            Log.d("TAG", "Valor entero de mj en " + i + " " + mj[i])
         }
 
         for(i in 0 until numVect){
@@ -193,6 +195,7 @@ class Genetico {
                     break
                 }
             }
+
             var bandera = 1
             for(j in 0 until restriccion.size){
                 var acumulado = 0.0
