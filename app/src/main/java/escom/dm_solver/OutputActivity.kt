@@ -67,7 +67,7 @@ class OutputActivity : AppCompatActivity() {
             for(i in 0 until session.funcionZ.variables.size){
                 addDouble( v.fenotipo(i) )
             }
-            addDouble( g.funcion.eval( v.fenotipos ) )
+            addDouble( session.funcionZ.eval( v.fenotipos ) )
         commitRow()
     }
 
