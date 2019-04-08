@@ -30,7 +30,7 @@ class OutputActivity : AppCompatActivity() {
 
     fun geneticos(){
         var g = Genetico()
-        g.calculateRangeOfVariables(this)
+        g.calculateVectorSizes()
         //algGen.calcular()
 
         var header = arrayListOf<String>("Vi","Vx","Vy","x","y","Z","Z%","Ac","Rnd","Vi")

@@ -9,16 +9,20 @@ import kotlin.math.*
 
 class Genetico {
 
-    var restriccion = ArrayList<Restriction>()
-    var funcion = Session.instance.funcionZ
-    var exp = Session.instance.settings.bitPrecision
-    var numVect = Session.instance.settings.numMiembros
-    var iteracion = Session.instance.settings.numIteraciones
-    var numVar = 2 // Numero de variables diferentes que tienen tanto nuestras restricciones como nuestra funcion *Lo tengo que implementar*
+    /* Conjunto de Restricciones */
+    private var restriccion = ArrayList<Restriction>()
 
-    /* Rangos de las variables */
+    /* Tamaño y numero de los vectores */
+    private var vectorSizes = ArrayList <Int>()
+    private var numVect = 3
+
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
+
+    var funcion : FuncionZ
+    var exp = 0
+    var iteracion = 3
+    var numVar = 2
 
     var mj = ArrayList<Int>()
     var coef = 0.0
@@ -29,16 +33,21 @@ class Genetico {
     var valoresMin = ArrayList <Double>()
     var valoresMax = ArrayList <Double>()
 
-    init { // Copiando las restricciones
-        val res = Session.instance.restrictions
-        res.forEach { r ->
+    init {
+        val session = Session.instance
+
+        funcion   = session.funcionZ
+        exp       = session.settings.bitPrecision
+        numVect   = session.settings.numMiembros
+        iteracion = session.settings.numIteraciones
+
+        session.restrictions.forEach { r ->
             if( r != null )
                 restriccion.add(r)
         }
     }
 
-
-// TODO: Pasar esta operación a la clase Vector
+    // TODO: Pasar esta operación a la clase Vector
     fun convertirDecimalABinario(n: Double, coef:Int): String {
 
         var n = n.toInt()
@@ -59,44 +68,48 @@ class Genetico {
         return binarioVolteado
     }
 
-    fun debug(){
+    private fun variablesRangeValues(max:ArrayList<Double>,min:ArrayList<Double>){
 
-        Log.d("DM", "Valores de Z")
-        Log.d("DM","Valor coeficiente: " + funcion )
-
-        Log.d("DM", "Restricciones" )
-        restriccion.forEach {
-            Log.d("DM", "Restriccion: " + it.toString())
-        }
-    }
-
-    fun calculateRangeOfVariables(context:Context?){
-        var result = 0.0
-        var aux = 0.0
-
+        var aux : Double
         for(i in 0 until numVar){
             min.add(1000000000.0)
             max.add(-100000000.0)
         }
 
-        var j = 0
+        // Por cada restriccion
         restriccion.forEach { r ->
-            result = r.result.toDouble()
-            j = 0
-
-            for(i in 0 until r.coeficientes.size) {
+            // Por cada variable
+            for(i in 0 until r.variables.size) {
                 if (r.coeficientes[i].num != 0) {
+                    // Actualizamos los límites
                     aux = r.findValue(i)
                     if (max[i] < aux) max[i] = aux
                     if (min[i] > aux) min[i] = aux
                 }
             }
         }
+    }
 
-        if(context!=null) {
-            for (i in 0 until max.size) {
-                Toast.makeText(context,"${min[i]} <= ${funcion.variables[i]} <= ${max[i]}",Toast.LENGTH_LONG).show()
-            }
+    private fun vectorSize(maxValue:Double,minValue:Double):Int{
+        val bit = Session.instance.settings.bitPrecision
+        val aux = ( maxValue - minValue )*( (10.0).pow(bit) )
+        return ceil( log2(aux) ).toInt()
+    }
+
+    fun calculateVectorSizes(){
+
+        val maxValues = ArrayList<Double>()
+        val minValues = ArrayList<Double>()
+
+        variablesRangeValues(maxValues,minValues)
+
+        for(i in 0 until funcion.variables.size) {
+            Log.d("DM","${minValues[i]} <= ${funcion.variables[i]} <= ${maxValues[i]}")
+        }
+
+        for(i in 0 until funcion.variables.size) {
+            vectorSizes.add(vectorSize(maxValues[i], minValues[i]))
+            Log.d("DM","mj(${funcion.variables[i]}) = ${vectorSizes[i]}")
         }
     }
 
@@ -129,6 +142,7 @@ class Genetico {
             var nuevalista = ArrayList<Double>()
             vector.add(nuevalista)
           //  Log.d("TAG", "Vector " + i)
+
             for(j in 0 until numVar){
                 var exponente = ((2.0).pow(mj.get(j))).toInt()
                 var binarioDecimal = (0 until exponente).random().toDouble()
@@ -149,7 +163,7 @@ class Genetico {
             valorTotalZ += valorZ
         }
 
-        //mucho ojo con los valores acumulables y puto el que lo lea
+        //mucho ojo con los valores acumulables
 
         for(i in 0 until numVect){
             porcentaje = vector[i][numVar*2] / valorTotalZ
@@ -221,8 +235,8 @@ class Genetico {
         for(i in 0 until numVar + 1){
             maximos += valoresMax[i].toString() + " "
             minimos += valoresMin[i].toString() + " "
-
         }
+
         Log.d("Tag",minimos)
         Log.d("Tag",maximos)
 
@@ -306,7 +320,6 @@ class Genetico {
                                 1 << 2 = 100
                                 0110 ^ 0100 = 0010
                                 1 << i
-
                              */
 
 
