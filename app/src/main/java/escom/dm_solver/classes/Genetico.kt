@@ -9,27 +9,32 @@ import kotlin.math.*
 
 class Genetico {
 
-    /* Conjunto de Restricciones y Funcion Z */
+    /* Conjunto de Restricciones y FuncionZ */
     private var restriccion = ArrayList<Restriction>()
-    private var funcion : FuncionZ
+    private var funcion = FuncionZ()
+
+    /* Number of Variables */
+    private var numVar = 2
+    private var numVect = 3
 
     /* Conjunto de Vectores */
     var vectores = ArrayList<Vector>()
+    var zValues  = ArrayList<Double>()
+    var zAcValues = ArrayList<Double>()
 
     /* Tamaño y numero de los vectores */
     private var mj = ArrayList<Int>()
-    private var numVect = 3
 
     /* Valores de frontera de variables */
     val maxValues = ArrayList<Double>()
     val minValues = ArrayList<Double>()
 
+    /*  */
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
 
     var exp = 0
     var iteracion = 3
-    var numVar = 2
 
     var coef = 0.0
     var valorZ = 0.0
@@ -114,7 +119,7 @@ class Genetico {
         }
     }
 
-    fun createVectors(){
+    fun createVectors() {
         for(i in 0 until numVect) {
             var vector = Vector("V$i",mj,minValues,maxValues)
 
@@ -123,10 +128,25 @@ class Genetico {
 
             Log.d("DM","${vector.tag} = $vector")
             vectores.add(vector)
+            zValues.add(0.0)
+            zAcValues.add(0.0)
         }
     }
 
-    fun validate(vector: Vector):Boolean{
+    fun calcularZ() {
+        for(i in 0 until numVect)
+            zValues[i] = funcion.eval( vectores[i].fenotipos )
+    }
+
+    fun calcularZAcum(){
+        var sum = 0.0;
+        vectores.forEach { v -> sum += funcion.eval( v.fenotipos ) }
+
+        for(i in 0 until numVect)
+            zAcValues[i] = zValues[i] / sum
+    }
+
+    fun validate(vector: Vector):Boolean {
         var pass = true
         for (restriction in restriccion)
             if (!restriction.eval(vector.fenotipos)){

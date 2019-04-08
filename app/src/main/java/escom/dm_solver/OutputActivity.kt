@@ -40,11 +40,14 @@ class OutputActivity : AppCompatActivity() {
     fun geneticos(){
         g.calculateVectorSizes()
         g.createVectors()
+        g.calcularZ()
+        g.calcularZAcum()
 
         addTable()
 
             printHeader()
-            g.vectores.forEach { v -> printVector(v)}
+            for(i in 0 until g.vectores.size)
+                printVectorLine(g.vectores[i],g.zValues[i],g.zAcValues[i])
 
         commitTable()
     }
@@ -57,10 +60,11 @@ class OutputActivity : AppCompatActivity() {
             addElement(variable,true)
         }
         addElement("z",true)
+        addElement("z%",true)
         commitRow()
     }
 
-    fun printVector(v:Vector){
+    fun printVectorLine(v:Vector,z:Double,zAc:Double){
         addRow()
             addElement( v.tag )
             addElement( v.toString() )
@@ -68,6 +72,7 @@ class OutputActivity : AppCompatActivity() {
                 addDouble( v.fenotipo(i) )
             }
             addDouble( session.funcionZ.eval( v.fenotipos ) )
+            addDouble( zAc )
         commitRow()
     }
 
