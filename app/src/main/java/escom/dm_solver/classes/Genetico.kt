@@ -1,6 +1,8 @@
 package escom.dm_solver.classes
+import android.content.Context
 import android.support.v4.content.IntentCompat
 import android.util.Log
+import android.widget.Toast
 import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
 import kotlin.math.*
@@ -68,7 +70,7 @@ class Genetico {
         }
     }
 
-    fun calculateRangeOfVariables(){
+    fun calculateRangeOfVariables(context:Context?){
         var result = 0.0
         var aux = 0.0
 
@@ -77,24 +79,24 @@ class Genetico {
             max.add(-100000000.0)
         }
 
-        var j = 0;
+        var j = 0
         restriccion.forEach { r ->
             result = r.result.toDouble()
             j = 0
 
-            r.coeficientes.forEach { c ->
-                if(c.num != 0){
-                    aux = result / c.toDouble()
-                    if( aux > max[j] )
-                        max[j] = aux
-                    if( aux < min[j] )
-                        min[j] = aux
+            for(i in 0 until r.coeficientes.size) {
+                if (r.coeficientes[i].num != 0) {
+                    aux = r.findValue(i)
+                    if (max[i] < aux) max[i] = aux
+                    if (min[i] > aux) min[i] = aux
                 }
             }
         }
 
-        for (i in 0 until max.size){
-            Log.d("DM", "${min[i]} <= ${funcion.variables[i]} <= ${max[i]}" )
+        if(context!=null) {
+            for (i in 0 until max.size) {
+                Toast.makeText(context,"${min[i]} <= ${funcion.variables[i]} <= ${max[i]}",Toast.LENGTH_LONG).show()
+            }
         }
     }
 

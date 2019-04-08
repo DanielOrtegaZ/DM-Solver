@@ -17,9 +17,7 @@ class Restriction {
         var j=0
 
         for(varx in variables){
-            if( varx.compareTo(variable) > 0 ) {
-                break
-            }
+            if( varx.compareTo(variable) > 0 ) { break }
             j++
         }
 
@@ -64,7 +62,6 @@ class Restriction {
                 inputx = inputx.substring(op.toString().length)
                 r.result = Fraction( inputx )
 
-                Log.d("DM","Fraction Created $r")
                 return r
             }
             else
@@ -82,12 +79,22 @@ class Restriction {
         return existe
     }
 
+    /* Calcula el valor de la variable = variables[posicion]
+     * Considera las demas variables a 0, y despeja
+    */
+    fun findValue(posicion:Int):Double{
+        val ret = result.toDouble() / coeficientes[posicion].toDouble()
+        return ret
+    }
+
     override fun toString():String{
         var aux = ""
 
-        if(coeficientes.size == variables.size)
-            for(i in 0..coeficientes.size-1)
-                aux += "${coeficientes.get(i)}<b>${variables.get(i)}</b> "
+        if(coeficientes.size == variables.size) {
+            for (i in 0..coeficientes.size - 1)
+                if (coeficientes[i].num != 0)
+                    aux += "${coeficientes[i]}<b>${variables[i]}</b> "
+        }
         else return ""
 
         if(aux.startsWith("+ "))
