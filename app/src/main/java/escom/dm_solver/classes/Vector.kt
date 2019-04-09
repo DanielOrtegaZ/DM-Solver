@@ -10,6 +10,7 @@ class Vector constructor(tag:String,mj:ArrayList<Int>,minValues:ArrayList<Double
     var constantes = ArrayList<Double>()
     var genotipos = ArrayList<Int>()
     var fenotipos = ArrayList<Double>()
+    var freq = 0
 
     init {
         var aux = 0.0

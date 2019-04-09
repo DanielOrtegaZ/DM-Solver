@@ -6,6 +6,7 @@ import android.widget.Toast
 import escom.dm_solver.classes.Restriction.Companion.MAYOR_IGUAL
 import escom.dm_solver.classes.Restriction.Companion.MENOR_IGUAL
 import kotlin.math.*
+import kotlin.random.Random
 
 class Genetico {
 
@@ -13,7 +14,8 @@ class Genetico {
     private var restriccion = ArrayList<Restriction>()
     private var funcion = FuncionZ()
 
-    /* Number of Variables */
+    /* Tamaño, numero de variables y de vectores */
+    private var mj = ArrayList<Int>()
     private var numVar = 2
     private var numVect = 3
 
@@ -22,21 +24,23 @@ class Genetico {
     var zValues  = ArrayList<Double>()
     var zValuesPerc = ArrayList<Double>()
     var zValuesAcum = ArrayList<Double>()
-
-    /* Tamaño y numero de los vectores */
-    private var mj = ArrayList<Int>()
+    var randomValues = ArrayList<Double>()
+    var tags = ArrayList<String>()
 
     /* Valores de frontera de variables */
     val maxValues = ArrayList<Double>()
     val minValues = ArrayList<Double>()
 
-    /*  */
+    /* Vectores Máximos y mínimos */
+    var vMax = Vector("",mj,minValues,maxValues)
+    var vMin = Vector("",mj,minValues,maxValues)
+
+
+
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
-
     var exp = 0
     var iteracion = 3
-
     var coef = 0.0
     var valorZ = 0.0
     var valorTotalZ = 0.0
@@ -59,25 +63,6 @@ class Genetico {
             if( r != null )
                 restriccion.add(r)
         }
-    }
-
-    // TODO: Clean functions belonging to Classes. LIKE THIS ONE
-    fun convertirDecimalABinario(n: Double, coef:Int): String {
-
-        var n = n.toInt()
-        var modulo: Int
-        var binarioVolteado = ""
-        while (n != 0) {
-            modulo = (n % 2)
-            binarioVolteado+=modulo
-            n /= 2
-        }
-        for(i in 0 until (mj[coef]-1)){
-            if(i>=binarioVolteado.length){
-                binarioVolteado+="0"
-            }
-        }
-        return binarioVolteado
     }
 
     private fun variablesRangeValues(max:ArrayList<Double>,min:ArrayList<Double>) {
@@ -133,6 +118,8 @@ class Genetico {
             zValues.add(0.0)
             zValuesPerc.add(0.0)
             zValuesAcum.add(0.0)
+            randomValues.add(0.0)
+            tags.add("")
         }
     }
 
@@ -154,13 +141,32 @@ class Genetico {
         }
     }
 
-    fun validate(vector: Vector):Boolean {
+    private fun validate(vector: Vector):Boolean {
         var pass = true
         for (restriction in restriccion)
             if (!restriction.eval(vector.fenotipos)){
                 pass = false; break
             }
         return pass
+    }
+
+    fun calculateFrequencies() {
+
+        var j : Int
+        for( i in 0 until numVect ) {
+            randomValues[i] = Random.nextDouble()
+
+            j = 0
+            while( j < numVect ){
+                if( randomValues[i] <= zValuesAcum[j] ){
+                    tags[i] = vectores[j].tag
+                    break
+                }; j++
+            }
+
+            if(j == numVect) j -= 1
+            vectores[j].freq += 1
+        }
     }
 
     fun calcular(){
@@ -486,4 +492,24 @@ class Genetico {
             Log.d("Tag", maximos)
         }
     }
+
+    // TODO: Clean functions belonging to Classes. LIKE THIS ONE
+    fun convertirDecimalABinario(n: Double, coef:Int): String {
+
+        var n = n.toInt()
+        var modulo: Int
+        var binarioVolteado = ""
+        while (n != 0) {
+            modulo = (n % 2)
+            binarioVolteado+=modulo
+            n /= 2
+        }
+        for(i in 0 until (mj[coef]-1)){
+            if(i>=binarioVolteado.length){
+                binarioVolteado+="0"
+            }
+        }
+        return binarioVolteado
+    }
+
 }

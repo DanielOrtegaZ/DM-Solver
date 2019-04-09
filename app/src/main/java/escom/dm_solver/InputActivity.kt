@@ -31,8 +31,14 @@ class InputActivity : AppCompatActivity(), NoticeDialogFragment.NoticeDialogList
         maxMin.setOnClickListener(this)
         backBtn.setOnClickListener(this)
 
-        if(savedInstanceState == null)
+        if(savedInstanceState == null) {
             loadValues()
+            if(Session.instance.restrictions.size==1){
+                addNewRestriccion("3x + 5y <= 100")
+                addNewRestriccion("x >= 15")
+                addNewRestriccion("y >= 0")
+            }
+        }
     }
 
     private fun loadValues(){

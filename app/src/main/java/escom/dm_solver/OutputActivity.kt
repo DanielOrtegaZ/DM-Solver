@@ -41,12 +41,14 @@ class OutputActivity : AppCompatActivity() {
         g.calculateVectorSizes()
         g.createVectors()
         g.calcularZValues()
+        g.calculateFrequencies()
 
         addTable()
 
             printHeader()
-            for(i in 0 until g.vectores.size)
-                printVectorLine(g.vectores[i],g.zValues[i],g.zValuesPerc[i],g.zValuesAcum[i])
+            for(i in 0 until g.vectores.size) {
+                printVectorLine(g.vectores[i], g.zValues[i], g.zValuesPerc[i], g.zValuesAcum[i], g.randomValues[i], g.tags[i])
+            }
 
         commitTable()
     }
@@ -61,10 +63,12 @@ class OutputActivity : AppCompatActivity() {
             addElement("z",true)
             addElement("z%",true)
             addElement("z%Ac",true)
+            addElement("Rand",true)
+            addElement("Vector",true)
         commitRow()
     }
 
-    fun printVectorLine(v:Vector,z:Double,zPerc:Double,zAc:Double){
+    fun printVectorLine(v:Vector,z:Double,zPerc:Double,zAc:Double,rnd:Double,tag:String){
         addRow()
             addElement( v.tag )
             addElement( v.toString() )
@@ -74,6 +78,8 @@ class OutputActivity : AppCompatActivity() {
             addDouble( z )
             addDouble( zPerc )
             addDouble( zAc )
+            addDouble( rnd )
+            addElement( tag )
         commitRow()
     }
 
@@ -87,7 +93,7 @@ class OutputActivity : AppCompatActivity() {
     }
 
     private fun addDouble(d:Double){ return addElement( "%.3f".format(d) ) }
-    private fun addElement(element:String,strong :Boolean = false){
+    private fun addElement(element:String,strong :Boolean = false) {
         var text = TextView(this)
         text.text = element
         text.layoutParams = rowParams
