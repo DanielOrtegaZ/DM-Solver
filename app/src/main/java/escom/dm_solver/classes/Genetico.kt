@@ -20,7 +20,8 @@ class Genetico {
     /* Conjunto de Vectores */
     var vectores = ArrayList<Vector>()
     var zValues  = ArrayList<Double>()
-    var zAcValues = ArrayList<Double>()
+    var zValuesPerc = ArrayList<Double>()
+    var zValuesAcum = ArrayList<Double>()
 
     /* Tamaño y numero de los vectores */
     private var mj = ArrayList<Int>()
@@ -129,21 +130,27 @@ class Genetico {
             Log.d("DM","${vector.tag} = $vector")
             vectores.add(vector)
             zValues.add(0.0)
-            zAcValues.add(0.0)
+            zValuesPerc.add(0.0)
+            zValuesAcum.add(0.0)
         }
     }
 
-    fun calcularZ() {
-        for(i in 0 until numVect)
-            zValues[i] = funcion.eval( vectores[i].fenotipos )
-    }
+    fun calcularZValues() {
+        var sum = 0.0
 
-    fun calcularZAcum(){
-        var sum = 0.0;
-        vectores.forEach { v -> sum += funcion.eval( v.fenotipos ) }
+        // Values of Z evaluations
+        for(i in 0 until numVect) {
+            zValues[i] = funcion.eval(vectores[i].fenotipos)
+            sum += zValues[i]
+        }
 
-        for(i in 0 until numVect)
-            zAcValues[i] = zValues[i] / sum
+        // Values of percentage
+        for(i in 0 until numVect) {
+            zValuesPerc[i] = zValues[i] / sum
+            zValuesAcum[i] = zValuesPerc[i]
+            if(i>0)
+                zValuesAcum[i] += zValuesAcum[i-1]
+        }
     }
 
     fun validate(vector: Vector):Boolean {
