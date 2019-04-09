@@ -40,6 +40,7 @@ class Genetico {
     var coef = 0.0
     var valorZ = 0.0
     var valorTotalZ = 0.0
+
     var porcentaje = 0.0
     var porcentajeAcum = 0.0
     var valoresMin = ArrayList <Double>()
@@ -79,7 +80,7 @@ class Genetico {
         return binarioVolteado
     }
 
-    private fun variablesRangeValues(max:ArrayList<Double>,min:ArrayList<Double>){
+    private fun variablesRangeValues(max:ArrayList<Double>,min:ArrayList<Double>) {
 
         var aux : Double
         for(i in 0 until numVar){

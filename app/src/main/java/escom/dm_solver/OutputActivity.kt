@@ -53,14 +53,14 @@ class OutputActivity : AppCompatActivity() {
 
     private fun printHeader(){
         addRow()
-        addElement("Vector",true)
-        addElement("Valores",true)
-        for (variable in session.funcionZ.variables) {
-            addElement(variable,true)
-        }
-        addElement("z",true)
-        addElement("z%",true)
-        addElement("z%Ac",true)
+            addElement("Vector",true)
+            addElement("Valores",true)
+            for (variable in session.funcionZ.variables) {
+                addElement(variable,true)
+            }
+            addElement("z",true)
+            addElement("z%",true)
+            addElement("z%Ac",true)
         commitRow()
     }
 
@@ -71,7 +71,7 @@ class OutputActivity : AppCompatActivity() {
             for(i in 0 until session.funcionZ.variables.size){
                 addDouble( v.fenotipo(i) )
             }
-            addDouble( session.funcionZ.eval( v.fenotipos ) )
+            addDouble( z )
             addDouble( zPerc )
             addDouble( zAc )
         commitRow()
@@ -103,6 +103,6 @@ class OutputActivity : AppCompatActivity() {
         row.layoutParams = tableParams
     }
 
-    private fun commitRow(){    table.addView(row)  }
+    private fun commitRow(){    table.addView(row) }
     private fun commitTable(){  horizontalScrollView.addView(table); container.addView(horizontalScrollView) }
 }
