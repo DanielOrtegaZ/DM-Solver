@@ -65,6 +65,35 @@ class Genetico {
         }
     }
 
+    fun start(){
+        calculateVectorSizes()
+        createVectors()
+        calcularZValues()
+        calculateFrequencies()
+    }
+
+    fun nextIteration() {
+        currentIteracion++
+        Log.d("DM","Iteracion $currentIteracion")
+
+        reCreateVectors()
+        calcularZValues()
+        calculateFrequencies()
+    }
+
+    private fun calculateVectorSizes() {
+
+        variablesRangeValues(maxValues,minValues)
+        for(i in 0 until funcion.variables.size) {
+            Log.d("DM","${minValues[i]} <= ${funcion.variables[i]} <= ${maxValues[i]}")
+        }
+
+        for(i in 0 until funcion.variables.size) {
+            mj.add( vectorSize(maxValues[i], minValues[i]) )
+            Log.d("DM","mj(${funcion.variables[i]}) = ${mj[i]}")
+        }
+    }
+
     private fun variablesRangeValues(max:ArrayList<Double>,min:ArrayList<Double>) {
 
         var aux : Double
@@ -93,20 +122,7 @@ class Genetico {
         return ceil( log2(aux) ).toInt()
     }
 
-    fun calculateVectorSizes(){
-
-        variablesRangeValues(maxValues,minValues)
-        for(i in 0 until funcion.variables.size) {
-            Log.d("DM","${minValues[i]} <= ${funcion.variables[i]} <= ${maxValues[i]}")
-        }
-
-        for(i in 0 until funcion.variables.size) {
-            mj.add( vectorSize(maxValues[i], minValues[i]) )
-            Log.d("DM","mj(${funcion.variables[i]}) = ${mj[i]}")
-        }
-    }
-
-    fun createVectors() {
+    private fun createVectors() {
         for(i in 0 until numVect) {
             var vector = Vector("V$i",mj,minValues,maxValues)
 
@@ -123,7 +139,16 @@ class Genetico {
         }
     }
 
-    fun calcularZValues() {
+    private fun validate(vector: Vector):Boolean {
+        var pass = true
+        for (restriction in restriccion)
+            if (!restriction.eval(vector.fenotipos)){
+                pass = false; break
+            }
+        return pass
+    }
+
+    private fun calcularZValues() {
         var sum = 0.0
 
         // Values of Z evaluations
@@ -141,16 +166,7 @@ class Genetico {
         }
     }
 
-    private fun validate(vector: Vector):Boolean {
-        var pass = true
-        for (restriction in restriccion)
-            if (!restriction.eval(vector.fenotipos)){
-                pass = false; break
-            }
-        return pass
-    }
-
-    fun calculateFrequencies() {
+    private fun calculateFrequencies() {
 
         var j : Int
         for( i in 0 until numVect ) {
@@ -169,16 +185,13 @@ class Genetico {
         }
     }
 
-    fun reCreateVectors(){
-
-        // TODO : Move following two lines to nextIteration function
-        currentIteracion++
-        Log.d("DM","Iteracion $currentIteracion")
+    private fun reCreateVectors(){
 
         vectores.sortByDescending { v -> v.freq }
         var tag0 = vectores[0].tag //var v1 = vectores[1]
         var p  = ""
-        for(i in 1..currentIteracion) p += "'"
+
+        for( i in 1..currentIteracion) p += "'"
 
         for( i in 0 until vectores.size){
             if( vectores[i].freq > 0 ) {
@@ -188,11 +201,10 @@ class Genetico {
             }
             else {
                 Log.d("DM", "  V$i$p = mutar(${tag0})")
-                vectores[i] = vectores[0].mutar("V$i$p")
+                do { vectores[i] = vectores[0].mutar("V$i$p") }
+                while ( !validate(vectores[i]) )
             }
         }
-
-        vectores.forEach { v -> Log.d("DM","${v.tag} $v") }
     }
 
     fun calcular(){

@@ -38,21 +38,26 @@ class OutputActivity : AppCompatActivity() {
     }
 
     fun geneticos(){
-        g.calculateVectorSizes()
-        g.createVectors()
-        g.calcularZValues()
-        g.calculateFrequencies()
+
+        var limit = session.settings.numIteraciones
+
+        g.start()
+        printIteration()
+        for( i in 0 until limit){
+            g.nextIteration()
+            printIteration()
+        }
+    }
+
+    private fun printIteration(){
 
         addTable()
+        printHeader()
 
-            printHeader()
-            for(i in 0 until g.vectores.size) {
-                printVectorLine(g.vectores[i], g.zValues[i], g.zValuesPerc[i], g.zValuesAcum[i], g.randomValues[i], g.tags[i])
-            }
+        for(i in 0 until g.vectores.size)
+            printVectorLine(g.vectores[i], g.zValues[i], g.zValuesPerc[i], g.zValuesAcum[i], g.randomValues[i], g.tags[i])
 
         commitTable()
-
-        g.reCreateVectors()
     }
 
     private fun printHeader(){
