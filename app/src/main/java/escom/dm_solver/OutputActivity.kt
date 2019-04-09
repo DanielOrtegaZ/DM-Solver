@@ -52,7 +52,7 @@ class OutputActivity : AppCompatActivity() {
 
         commitTable()
 
-        g.orderVectors()
+        g.reCreateVectors()
     }
 
     private fun printHeader(){

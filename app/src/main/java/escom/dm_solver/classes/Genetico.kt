@@ -18,6 +18,7 @@ class Genetico {
     private var mj = ArrayList<Int>()
     private var numVar = 2
     private var numVect = 3
+    private var currentIteracion = 0
 
     /* Conjunto de Vectores */
     var vectores = ArrayList<Vector>()
@@ -34,7 +35,6 @@ class Genetico {
     /* Vectores Máximos y mínimos */
     var vMax = Vector("",mj,minValues,maxValues)
     var vMin = Vector("",mj,minValues,maxValues)
-
 
 
     var min = ArrayList <Double>()
@@ -169,11 +169,30 @@ class Genetico {
         }
     }
 
-    fun orderVectors(){
+    fun reCreateVectors(){
+
+        // TODO : Move following two lines to nextIteration function
+        currentIteracion++
+        Log.d("DM","Iteracion $currentIteracion")
+
         vectores.sortByDescending { v -> v.freq }
-        for (vector in vectores) {
-            Log.d("DM", "${vector.tag} : ${vector.freq} times")
+        var tag0 = vectores[0].tag //var v1 = vectores[1]
+        var p  = ""
+        for(i in 1..currentIteracion) p += "'"
+
+        for( i in 0 until vectores.size){
+            if( vectores[i].freq > 0 ) {
+                Log.d("DM", "  V$i$p = ${vectores[i].tag}")
+                vectores[i].tag = "V$i$p"
+                vectores[i].freq = 0
+            }
+            else {
+                Log.d("DM", "  V$i$p = mutar(${tag0})")
+                vectores[i] = vectores[0].mutar("V$i$p")
+            }
         }
+
+        vectores.forEach { v -> Log.d("DM","${v.tag} $v") }
     }
 
     fun calcular(){
@@ -183,7 +202,7 @@ class Genetico {
 
         var vector = ArrayList<ArrayList<Double>>(emptyList()) //Los primeros numeros corresponden al binario de las variables, los siguientes a sus valores finales, incuyendo z. Luego siguen porcentajes y porcentajes acumulados respecto a z, finalmente numeros random del 0.1 al 0.10
         ////Aquí tengo que obtener cuantas variables existen en total (Maximo son 4)
-        var result = 0.0
+        var result : Double
 
         valorTotalZ = 0.0
         porcentajeAcum = 0.0
@@ -300,7 +319,7 @@ class Genetico {
             var cubeta = ArrayList<Int>()
             var numerosVect = ArrayList<Int>()
             var totalVectDif = 0
-            var aux = 0
+            var aux : Int
             for (i in 0 until numVect) {
                 cubeta.add(0)
                 numerosVect.add(i)
@@ -503,13 +522,13 @@ class Genetico {
     // TODO: Clean functions belonging to Classes. LIKE THIS ONE
     fun convertirDecimalABinario(n: Double, coef:Int): String {
 
-        var n = n.toInt()
+        var ni = n.toInt()
         var modulo: Int
         var binarioVolteado = ""
-        while (n != 0) {
-            modulo = (n % 2)
+        while (ni != 0) {
+            modulo = (ni % 2)
             binarioVolteado+=modulo
-            n /= 2
+            ni /= 2
         }
         for(i in 0 until (mj[coef]-1)){
             if(i>=binarioVolteado.length){
