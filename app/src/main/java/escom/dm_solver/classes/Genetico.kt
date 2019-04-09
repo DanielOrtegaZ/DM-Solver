@@ -169,6 +169,13 @@ class Genetico {
         }
     }
 
+    fun orderVectors(){
+        vectores.sortByDescending { v -> v.freq }
+        for (vector in vectores) {
+            Log.d("DM", "${vector.tag} : ${vector.freq} times")
+        }
+    }
+
     fun calcular(){
 
         min = minValues

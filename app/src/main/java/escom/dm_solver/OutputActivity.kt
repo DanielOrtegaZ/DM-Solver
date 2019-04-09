@@ -51,6 +51,8 @@ class OutputActivity : AppCompatActivity() {
             }
 
         commitTable()
+
+        g.orderVectors()
     }
 
     private fun printHeader(){
