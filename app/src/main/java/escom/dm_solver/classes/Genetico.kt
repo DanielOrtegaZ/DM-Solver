@@ -32,10 +32,13 @@ class Genetico {
     val maxValues = ArrayList<Double>()
     val minValues = ArrayList<Double>()
 
+    /* Vector Mínimo */
+    lateinit var minimo : Vector
+    var zMinimo = +100000000.0
+
     /* Vectores Máximos y mínimos */
     var vMax = Vector("",mj,minValues,maxValues)
     var vMin = Vector("",mj,minValues,maxValues)
-
 
     var min = ArrayList <Double>()
     var max = ArrayList <Double>()
@@ -154,6 +157,12 @@ class Genetico {
         // Values of Z evaluations
         for(i in 0 until numVect) {
             zValues[i] = funcion.eval(vectores[i].fenotipos)
+
+            if( zValues[i] < zMinimo ){
+                zMinimo = zValues[i]
+                minimo = vectores[i]
+            }
+
             sum += zValues[i]
         }
 
@@ -188,6 +197,7 @@ class Genetico {
     private fun reCreateVectors(){
 
         vectores.sortByDescending { v -> v.freq }
+
         var tag0 = vectores[0].tag //var v1 = vectores[1]
         var p  = ""
 
@@ -205,6 +215,11 @@ class Genetico {
                 while ( !validate(vectores[i]) )
             }
         }
+    }
+
+    fun getMaximo():Vector{
+        vectores.sortByDescending { v -> v.freq }
+        return vectores[0]
     }
 
     fun calcular(){

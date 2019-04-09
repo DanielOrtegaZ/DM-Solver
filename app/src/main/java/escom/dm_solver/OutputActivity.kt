@@ -47,6 +47,30 @@ class OutputActivity : AppCompatActivity() {
             g.nextIteration()
             printIteration()
         }
+
+        printMaximo()
+        printMinimo()
+    }
+
+    fun printMaximo(){
+        val funcion = session.funcionZ
+        Toast.makeText(this,"MAXIMO",Toast.LENGTH_LONG).show()
+        var vector = g.getMaximo()
+        for( i in 0 until funcion.variables.size ) {
+            Toast.makeText(this, "${funcion.variables[i]} = ${vector.fenotipo(i)}", Toast.LENGTH_LONG).show()
+        }
+        Toast.makeText(this,"Zmax = ${funcion.eval(vector.fenotipos)}",Toast.LENGTH_LONG).show()
+    }
+
+    fun printMinimo(){
+
+        Toast.makeText(this,"MINIMO",Toast.LENGTH_LONG).show()
+        val funcion = session.funcionZ
+        val vector = g.minimo
+        for( i in 0 until funcion.variables.size ){
+            Toast.makeText(this,"${funcion.variables[i]} = ${vector.fenotipo(i)}",Toast.LENGTH_LONG).show()
+        }
+        Toast.makeText(this,"Zmin = ${g.zMinimo}",Toast.LENGTH_LONG).show()
     }
 
     private fun printIteration(){

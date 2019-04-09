@@ -31,7 +31,6 @@ class Vector constructor(tag:String,mj:ArrayList<Int>,minValues:ArrayList<Double
         val i = Random.nextInt(sizes.size)
         val random = (2.0).pow( Random.nextInt(sizes[i]) ).toInt()
 
-        Log.d("DM","mutar random = $random")
         v.constantes.addAll(constantes)
         v.genotipos.addAll(genotipos)
         v.fenotipos.addAll(fenotipos)
